@@ -1,0 +1,10 @@
+{
+  "appName": {
+    "message": "injector",
+    "description": "The name of the application"
+  },
+  "appDescription": {
+    "message": "My Chrome Extension",
+    "description": "The description of the application"
+  }
+}
