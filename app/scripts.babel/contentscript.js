@@ -1,27 +1,30 @@
-console.log('\'Allo \'Allo! Content script');
-
 function inject(name) {
+  function log(message) {
+    console.log(`%c[Injector]: ${message}`, 'color: blue')
+  }
+
   const CDN_JS = 'https://api.cdnjs.com/libraries?search='
 
   fetch(`${CDN_JS}/${name}`)
     .then(res => res.json())
     .then(({ results }) => {
       if (results.length === 0) {
-        console.log(`Sorry, ${name} not found`)
+        log(`Sorry, ${name} not found`)
+        return
       }
 
       const { name: exactName, latest: scriptSrc } = results[0]
 
       if (name !== exactName) {
-        console.log(`${name} not found, inject ${exactName} for you.`)
+        log(`${name} not found, inject ${exactName} for you.`)
       }
 
       const script = document.createElement('script')
       script.src = scriptSrc
-      script.onload = () => console.log(`${exactName} loaded`)
+      script.onload = () => log(`${exactName} loaded`)
 
       document.body.appendChild(script)
-      console.log(`${exactName} loading...`)
+      log(`${exactName} loading...`)
     })
 }
 
