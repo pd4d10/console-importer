@@ -15,27 +15,9 @@
     ]
   },
   "permissions": [
-    "tabs",
     "http://*/*",
     "https://*/*",
-    "background",
-    "bookmarks",
-    "clipboardRead",
-    "clipboardWrite",
-    "contentSettings",
-    "cookies",
-    "*://*.google.com/",
-    "debugger",
-    "history",
-    "idle",
-    "management",
-    "notifications",
-    "pageCapture",
-    "topSites",
-    "storage",
-    "webNavigation",
-    "webRequest",
-    "webRequestBlocking"
+    "*://*.google.com/"
   ],
   "content_scripts": [
     {
@@ -51,6 +33,7 @@
     }
   ],
   "web_accessible_resources": [
-    "images/icon-48.png"
+    "images/icon-48.png",
+    "scripts/inject.js"
   ]
 }
