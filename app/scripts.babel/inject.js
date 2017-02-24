@@ -8,6 +8,19 @@
     console.log(`%c[Injector]: ${message}`, NORMAL, ...colors)
   }
 
+  // Inject script
+  function injectScript(src, onload, onerror) {
+    const script = document.createElement('script')
+    script.src = src
+    if (typeof onload === 'function') {
+      script.onload = onload
+    }
+    if (typeof onerror === 'function') {
+      script.onerror = onerror
+    }
+    document.body.appendChild(script)
+  }
+
   function inject(name) {
     log(`%cSearching for %c${name}%c, please be patient...`, NORMAL, STRONG, NORMAL)
     fetch(`https://api.cdnjs.com/libraries?search=${name}`)
@@ -23,12 +36,8 @@
           log(`%c${name}%c not found, inject %c${exactName}%c for you.`, STRONG, NORMAL, STRONG, NORMAL)
         }
 
-        const script = document.createElement('script')
-        script.src = scriptSrc
-        script.onload = () => log(`%c${exactName}%c loaded.`, STRONG, NORMAL)
-        script.onerror = console.log
-        document.body.appendChild(script)
-        log(`%c${exactName}%c loading...`, STRONG, NORMAL)
+        log(`%c${exactName}%c is loading...`, STRONG, NORMAL)
+        injectScript(scriptSrc, () => log(`%c${exactName}%c is loaded.`, STRONG, NORMAL))
       })
       .catch(err => {
         log('There appears to be some trouble. If you think this is a bug, please report an issue:')
@@ -36,5 +45,13 @@
       })
   }
 
+  // From unpkg
+  // https://unpkg.com
+  function unpkg(name) {
+    log(`%c${name}%c is loading...`, STRONG, NORMAL)
+    injectScript(`https://unpkg.com/${name}`, () => log(`%c${name}%c is loaded.`, STRONG, NORMAL))
+  }
+
+  inject.unpkg = unpkg
   window.$i = inject
 })(window)
