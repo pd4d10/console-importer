@@ -19,7 +19,7 @@
     "gulp-cache": "^0.4.3",
     "gulp-chrome-manifest": "0.0.13",
     "gulp-clean-css": "^2.0.3",
-    "gulp-eslint": "^2.0.0",
+    "gulp-eslint": "^3.0.1",
     "gulp-htmlmin": "^1.3.0",
     "gulp-if": "^2.0.0",
     "gulp-imagemin": "^2.4.0",
@@ -42,7 +42,11 @@
       "webextensions": true
     },
     "rules": {
-      "semi": ["error", "never"]
+      "semi": [
+        "error",
+        "never"
+      ],
+      "no-console": ["off"]
     }
   }
 }

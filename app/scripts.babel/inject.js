@@ -1,4 +1,4 @@
-(function (window) {
+((window) => {
   const NORMAL = 'color: blue'
   const STRONG = 'color: blue; font-weight: bold'
 
@@ -21,7 +21,9 @@
     document.body.appendChild(script)
   }
 
-  function inject(name) {
+  // From cdnjs
+  // https://cdnjs.com/
+  function cdnjs(name) {
     log(`%cSearching for %c${name}%c, please be patient...`, NORMAL, STRONG, NORMAL)
     fetch(`https://api.cdnjs.com/libraries?search=${name}`)
       .then(res => res.json())
@@ -39,7 +41,7 @@
         log(`%c${exactName}%c is loading...`, STRONG, NORMAL)
         injectScript(scriptSrc, () => log(`%c${exactName}%c is loaded.`, STRONG, NORMAL))
       })
-      .catch(err => {
+      .catch(() => {
         log('There appears to be some trouble. If you think this is a bug, please report an issue:')
         log('https://github.com/pd4d10/inject/issues')
       })
@@ -52,6 +54,17 @@
     injectScript(`https://unpkg.com/${name}`, () => log(`%c${name}%c is loaded.`, STRONG, NORMAL))
   }
 
-  inject.unpkg = unpkg
-  window.$i = inject
+  // Entry
+  function importer(name) {
+    // If
+    if (/^https?:\/\//.test(name)) {
+      return injectScript(name)
+    }
+
+    return cdnjs(name)
+  }
+
+  importer.cdnjs = cdnjs
+  importer.unpkg = unpkg
+  window.$i = importer // eslint-disable-line
 })(window)

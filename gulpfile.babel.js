@@ -28,11 +28,7 @@ function lint(files, options) {
   };
 }
 
-gulp.task('lint', lint('app/scripts.babel/**/*.js', {
-  env: {
-    es6: true
-  }
-}));
+gulp.task('lint', lint('app/scripts.babel/**/*.js'));
 
 gulp.task('images', () => {
   return gulp.src('app/images/**/*')
