@@ -8,17 +8,26 @@
     console.log(`%c[Injector]: ${message}`, NORMAL, ...colors)
   }
 
-  // Inject script
   function injectScript(src, onload, onerror) {
     const script = document.createElement('script')
     script.src = src
-    if (typeof onload === 'function') {
-      script.onload = onload
-    }
-    if (typeof onerror === 'function') {
-      script.onerror = onerror
-    }
+    script.onload = onload
+    script.onerror = onerror
     document.body.appendChild(script)
+  }
+
+  function injectStyle(url, onload, onerror) {
+    const link = document.createElement('link')
+    link.href = url
+    link.rel = 'stylesheet'
+    link.onload = onload
+    link.onerror = onerror
+    document.head.appendChild(link)
+  }
+
+  // Script onload
+  function onLoad(name) {
+    return () => log(`%c${name}%c is loaded.`, STRONG, NORMAL)
   }
 
   // From cdnjs
@@ -39,7 +48,7 @@
         }
 
         log(`%c${exactName}%c is loading...`, STRONG, NORMAL)
-        injectScript(scriptSrc, () => log(`%c${exactName}%c is loaded.`, STRONG, NORMAL))
+        injectScript(scriptSrc, onLoad(exactName))
       })
       .catch(() => {
         log('There appears to be some trouble. If you think this is a bug, please report an issue:')
@@ -51,14 +60,24 @@
   // https://unpkg.com
   function unpkg(name) {
     log(`%c${name}%c is loading...`, STRONG, NORMAL)
-    injectScript(`https://unpkg.com/${name}`, () => log(`%c${name}%c is loaded.`, STRONG, NORMAL))
+    injectScript(`https://unpkg.com/${name}`, onLoad(name))
   }
 
   // Entry
   function importer(name) {
-    // If
+    // If it is a valid URL, inject it directly
     if (/^https?:\/\//.test(name)) {
-      return injectScript(name)
+      // Handle CSS
+      if (/\.css$/.test(name)) {
+        return injectStyle(name)
+      }
+
+      // Handle JS
+      return injectScript(
+        name,
+        onLoad(name),
+        () => log(`%cFailed to load %c${name}%c, is this script URL correct?`, NORMAL, STRONG, NORMAL),
+      )
     }
 
     return cdnjs(name)
