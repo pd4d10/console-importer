@@ -1,36 +1,36 @@
 ((window) => {
-  const NORMAL = 'color: blue'
-  const STRONG = 'color: blue; font-weight: bold'
+  const NORMAL = 'color: #00f'
+  const ERROR = 'color: #c82828'
+  const STRONG = 'color: #00f; font-weight: bold'
 
   // Add prefix to logs
   function log(...args) {
     const [message, ...colors] = args
-    console.log(`%c[import]: ${message}`, NORMAL, ...colors)
+    console.log(`[$i]: ${message}`, ...colors)
   }
 
-  // Script onload
   function createOnLoad(url) {
-    return () => log(`%c${url}%c is loaded.`, STRONG, NORMAL)
+    return () => log(`%c${url}%c loaded.`, STRONG, NORMAL)
   }
 
   function createOnError(url) {
-    return () => log(`%cFailed to load %c${url}%c, is this URL correct`, NORMAL, STRONG, NORMAL)
+    return () => log(`%cFail to load %c${url}%c, is this URL correct?`, ERROR, STRONG, ERROR)
   }
 
-  function injectScript(url) {
+  function injectScript(url, onload = createOnLoad(url), onerror = createOnError(url)) {
     const script = document.createElement('script')
     script.src = url
-    script.onload = createOnLoad(url)
-    script.onerror = createOnError(url)
+    script.onload = onload
+    script.onerror = onerror
     document.body.appendChild(script)
   }
 
-  function injectStyle(url) {
+  function injectStyle(url, onload = createOnLoad(url), onerror = createOnError(url)) {
     const link = document.createElement('link')
     link.href = url
     link.rel = 'stylesheet'
-    link.onload = createOnLoad(url)
-    link.onerror = createOnError(url)
+    link.onload = onload
+    link.onerror = onerror
     document.head.appendChild(link)
   }
 
@@ -42,17 +42,17 @@
       .then(res => res.json())
       .then(({ results }) => {
         if (results.length === 0) {
-          log(`%cSorry, %c${name}%c not found, please try another keyword`, NORMAL, STRONG, NORMAL)
+          log(`%cSorry, %c${name}%c not found, please try another keyword`, ERROR, STRONG, ERROR)
           return
         }
 
         const { name: exactName, latest: scriptSrc } = results[0]
         if (name !== exactName) {
-          log(`%c${name}%c not found, import %c${exactName}%c for you.`, STRONG, NORMAL, STRONG, NORMAL)
+          log(`%c${name}%c not found, import %c${exactName}%c instead.`, STRONG, NORMAL, STRONG, NORMAL)
         }
 
         log(`%c${exactName}%c is loading...`, STRONG, NORMAL)
-        injectScript(scriptSrc, createOnLoad(exactName))
+        injectScript(scriptSrc, createOnLoad(exactName), createOnError(exactName))
       })
       .catch(() => {
         log('There appears to be some trouble. If you think this is a bug, please report an issue:')
@@ -64,11 +64,18 @@
   // https://unpkg.com
   function unpkg(name) {
     log(`%c${name}%c is loading...`, STRONG, NORMAL)
-    injectScript(`https://unpkg.com/${name}`, createOnLoad(name))
+    injectScript(`https://unpkg.com/${name}`, createOnLoad(name), createOnError(name))
   }
 
   // Entry
-  function importer(name) {
+  function importer(originName) {
+    if (typeof originName !== 'string') {
+      throw new Error('$i\'s argument should be a string, please check it.')
+    }
+
+    // Trim string
+    const name = originName.trim()
+
     // If it is a valid URL, inject it directly
     if (/^https?:\/\//.test(name)) {
       // Handle CSS
@@ -77,11 +84,12 @@
       }
 
       // Handle JS
-      return injectScript(
-        name,
-        createOnLoad(name),
-        createOnError(name),
-      )
+      return injectScript(name)
+    }
+
+    // If version specified, try unpkg
+    if (name.includes('@')) {
+      return unpkg(name)
     }
 
     return cdnjs(name)
