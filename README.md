@@ -10,11 +10,11 @@ Install it from [Chrome Web Store]()
 
 Open Chrome devtools console, a function named `$i` could be used to import JavaScript and CSS resources.
 
-![assets/demo.gif](Demo)
+![Demo](assets/demo.gif)
 
 also, a valid URL is acceptable:
 
-![assets/url.png](URL)
+![URL](assets/url.png)
 
 ## How does it work?
 
