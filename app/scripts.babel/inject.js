@@ -8,8 +8,12 @@
     console.log(`[$i]: ${message}`, ...colors)
   }
 
+  function createBeforeLoad(url) {
+    return () => log(`%c${url}%c is loading...`, STRONG, NORMAL)
+  }
+
   function createOnLoad(url) {
-    return () => log(`%c${url}%c loaded.`, STRONG, NORMAL)
+    return () => log(`%c${url}%c is loaded.`, STRONG, NORMAL)
   }
 
   function createOnError(url) {
@@ -35,7 +39,14 @@
     document.head.appendChild(link)
   }
 
-  function inject(url, onload = createOnLoad(url), onerror = createOnError(url)) {
+  function inject(
+    url,
+    beforeLoad = createBeforeLoad(url),
+    onload = createOnLoad(url),
+    onerror = createOnError(url),
+  ) {
+    beforeLoad()
+
     // Handle CSS
     if (/\.css$/.test(url)) {
       return injectStyle(url, onload, onerror)
@@ -62,11 +73,11 @@
           log(`%c${name}%c not found, import %c${exactName}%c instead.`, STRONG, NORMAL, STRONG, NORMAL)
         }
 
-        log(`%c${exactName}%c is loading...`, STRONG, NORMAL)
-        inject(url, createOnLoad(exactName), createOnError(exactName))
+        // log(`%c${exactName}%c is loading...`, STRONG, NORMAL)
+        inject(url, createBeforeLoad(exactName), createOnLoad(exactName), createOnError(exactName))
       })
       .catch(() => {
-        log('There appears to be some trouble. If you think this is a bug, please report an issue:')
+        log('There appears to be some trouble with your network. If you think this is a bug, please report an issue:')
         log('https://github.com/pd4d10/import-from-console/issues')
       })
   }
@@ -74,7 +85,7 @@
   // From unpkg
   // https://unpkg.com
   function unpkg(name) {
-    log(`%c${name}%c is loading...`, STRONG, NORMAL)
+    createBeforeLoad(name)()
     injectScript(`https://unpkg.com/${name}`, createOnLoad(name), createOnError(name))
   }
 
