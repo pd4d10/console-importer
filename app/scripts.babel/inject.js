@@ -4,8 +4,7 @@
   const STRONG = 'color: #00f; font-weight: bold'
 
   // Add prefix to logs
-  function log(...args) {
-    const [message, ...colors] = args
+  function log(message, ...colors) {
     console.log(`[$i]: ${message}`, ...colors)
   }
 
@@ -17,7 +16,8 @@
     return () => log(`%cFail to load %c${url}%c, is this URL correct?`, ERROR, STRONG, ERROR)
   }
 
-  function injectScript(url, onload = createOnLoad(url), onerror = createOnError(url)) {
+  // Insert script tag
+  function injectScript(url, onload, onerror) {
     const script = document.createElement('script')
     script.src = url
     script.onload = onload
@@ -25,13 +25,24 @@
     document.body.appendChild(script)
   }
 
-  function injectStyle(url, onload = createOnLoad(url), onerror = createOnError(url)) {
+  // Insert link tag
+  function injectStyle(url, onload, onerror) {
     const link = document.createElement('link')
     link.href = url
     link.rel = 'stylesheet'
     link.onload = onload
     link.onerror = onerror
     document.head.appendChild(link)
+  }
+
+  function inject(url, onload = createOnLoad(url), onerror = createOnError(url)) {
+    // Handle CSS
+    if (/\.css$/.test(url)) {
+      return injectStyle(url, onload, onerror)
+    }
+
+    // Handle JS
+    return injectScript(url, onload, onerror)
   }
 
   // From cdnjs
@@ -46,13 +57,13 @@
           return
         }
 
-        const { name: exactName, latest: scriptSrc } = results[0]
+        const { name: exactName, latest: url } = results[0]
         if (name !== exactName) {
           log(`%c${name}%c not found, import %c${exactName}%c instead.`, STRONG, NORMAL, STRONG, NORMAL)
         }
 
         log(`%c${exactName}%c is loading...`, STRONG, NORMAL)
-        injectScript(scriptSrc, createOnLoad(exactName), createOnError(exactName))
+        inject(url, createOnLoad(exactName), createOnError(exactName))
       })
       .catch(() => {
         log('There appears to be some trouble. If you think this is a bug, please report an issue:')
@@ -78,13 +89,7 @@
 
     // If it is a valid URL, inject it directly
     if (/^https?:\/\//.test(name)) {
-      // Handle CSS
-      if (/\.css$/.test(name)) {
-        return injectStyle(name)
-      }
-
-      // Handle JS
-      return injectScript(name)
+      return inject(name)
     }
 
     // If version specified, try unpkg
