@@ -1,6 +1,6 @@
 {
   "appName": {
-    "message": "injector",
+    "message": "import-from-console",
     "description": "The name of the application"
   },
   "appDescription": {

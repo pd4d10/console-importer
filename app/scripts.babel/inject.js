@@ -5,29 +5,33 @@
   // Add prefix to logs
   function log(...args) {
     const [message, ...colors] = args
-    console.log(`%c[Injector]: ${message}`, NORMAL, ...colors)
-  }
-
-  function injectScript(src, onload, onerror) {
-    const script = document.createElement('script')
-    script.src = src
-    script.onload = onload
-    script.onerror = onerror
-    document.body.appendChild(script)
-  }
-
-  function injectStyle(url, onload, onerror) {
-    const link = document.createElement('link')
-    link.href = url
-    link.rel = 'stylesheet'
-    link.onload = onload
-    link.onerror = onerror
-    document.head.appendChild(link)
+    console.log(`%c[import]: ${message}`, NORMAL, ...colors)
   }
 
   // Script onload
-  function onLoad(name) {
-    return () => log(`%c${name}%c is loaded.`, STRONG, NORMAL)
+  function createOnLoad(url) {
+    return () => log(`%c${url}%c is loaded.`, STRONG, NORMAL)
+  }
+
+  function createOnError(url) {
+    return () => log(`%cFailed to load %c${url}%c, is this URL correct`, NORMAL, STRONG, NORMAL)
+  }
+
+  function injectScript(url) {
+    const script = document.createElement('script')
+    script.src = url
+    script.onload = createOnLoad(url)
+    script.onerror = createOnError(url)
+    document.body.appendChild(script)
+  }
+
+  function injectStyle(url) {
+    const link = document.createElement('link')
+    link.href = url
+    link.rel = 'stylesheet'
+    link.onload = createOnLoad(url)
+    link.onerror = createOnError(url)
+    document.head.appendChild(link)
   }
 
   // From cdnjs
@@ -44,15 +48,15 @@
 
         const { name: exactName, latest: scriptSrc } = results[0]
         if (name !== exactName) {
-          log(`%c${name}%c not found, inject %c${exactName}%c for you.`, STRONG, NORMAL, STRONG, NORMAL)
+          log(`%c${name}%c not found, import %c${exactName}%c for you.`, STRONG, NORMAL, STRONG, NORMAL)
         }
 
         log(`%c${exactName}%c is loading...`, STRONG, NORMAL)
-        injectScript(scriptSrc, onLoad(exactName))
+        injectScript(scriptSrc, createOnLoad(exactName))
       })
       .catch(() => {
         log('There appears to be some trouble. If you think this is a bug, please report an issue:')
-        log('https://github.com/pd4d10/inject/issues')
+        log('https://github.com/pd4d10/import-from-console/issues')
       })
   }
 
@@ -60,7 +64,7 @@
   // https://unpkg.com
   function unpkg(name) {
     log(`%c${name}%c is loading...`, STRONG, NORMAL)
-    injectScript(`https://unpkg.com/${name}`, onLoad(name))
+    injectScript(`https://unpkg.com/${name}`, createOnLoad(name))
   }
 
   // Entry
@@ -75,8 +79,8 @@
       // Handle JS
       return injectScript(
         name,
-        onLoad(name),
-        () => log(`%cFailed to load %c${name}%c, is this script URL correct?`, NORMAL, STRONG, NORMAL),
+        createOnLoad(name),
+        createOnError(name),
       )
     }
 
