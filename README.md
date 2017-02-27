@@ -1,6 +1,6 @@
 # import-from-console
 
-Import JavaScript and CSS resources from console, with one command.
+![Demo](assets/demo.gif)
 
 ## Installation
 
@@ -10,11 +10,21 @@ Install it from [Chrome Web Store]()
 
 Open Chrome devtools console, a function named `$i` could be used to import JavaScript and CSS resources.
 
-![Demo](assets/demo.gif)
+```js
+// Import latest version
+$i('jquery')
 
-also, a valid URL is acceptable:
+// Import specific version
+$i('jquery@2')
 
-![URL](assets/url.png)
+// Also, you can import a valid script URL
+$i('https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js')
+
+// CSS is supported, too
+$i('https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css')
+```
+
+![URL](assets/css.gif)
 
 ## How does it work?
 
