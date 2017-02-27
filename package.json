@@ -28,6 +28,7 @@
     "gulp-plumber": "^1.1.0",
     "gulp-size": "^2.1.0",
     "gulp-sourcemaps": "^1.6.0",
+    "gulp-svg2png": "^2.0.2",
     "gulp-uglify": "^1.5.3",
     "gulp-useref": "^3.0.8",
     "gulp-zip": "^3.2.0",
@@ -46,7 +47,9 @@
         "error",
         "never"
       ],
-      "no-console": ["off"]
+      "no-console": [
+        "off"
+      ]
     }
   }
 }

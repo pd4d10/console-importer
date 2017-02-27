@@ -48,16 +48,17 @@ gulp.task('html', () => gulp.src('app/*.html')
     .pipe($.if('*.html', $.htmlmin({ removeComments: true, collapseWhitespace: true })))
     .pipe(gulp.dest('dist')))
 
-gulp.task('chromeManifest', () => gulp.src('app/manifest.json')
-    .pipe($.chromeManifest({
-      buildnumber: true,
-      background: {
-        target: 'scripts/background.js',
-        exclude: [
-          'scripts/chromereload.js',
-        ],
-      },
-    }))
+gulp.task('chromeManifest', () => gulp
+  .src('app/manifest.json')
+  .pipe($.chromeManifest({
+    buildnumber: true,
+    background: {
+      target: 'scripts/background.js',
+      exclude: [
+        'scripts/chromereload.js',
+      ],
+    },
+  }))
   .pipe($.if('*.css', $.cleanCss({ compatibility: '*' })))
   .pipe($.if('*.js', $.sourcemaps.init()))
   .pipe($.if('*.js', $.uglify()))
@@ -111,6 +112,12 @@ gulp.task('build', (cb) => {
     ['html', 'images', 'extras'],
     'size', cb)
 })
+
+gulp.task('svg2png', () => gulp
+  .src('./app/images/*.svg')
+  .pipe($.svg2png())
+  .pipe(gulp.dest('./app/images')),
+)
 
 gulp.task('default', ['clean'], (cb) => {
   runSequence('build', cb)

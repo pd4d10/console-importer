@@ -1,11 +1,10 @@
 {
   "name": "__MSG_appName__",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "manifest_version": 2,
   "description": "__MSG_appDescription__",
   "icons": {
-    "16": "images/icon-16.png",
-    "128": "images/icon-128.png"
+    "128": "images/icon.png"
   },
   "default_locale": "en",
   "background": {
@@ -33,7 +32,6 @@
     }
   ],
   "web_accessible_resources": [
-    "images/icon-48.png",
     "scripts/inject.js"
   ]
 }
