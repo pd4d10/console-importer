@@ -1,10 +1,10 @@
 {
   "appName": {
-    "message": "import-from-console",
+    "message": "Console Importer",
     "description": "The name of the application"
   },
   "appDescription": {
-    "message": "My Chrome Extension",
+    "message": "Import JavaScript and CSS resources from console, with one command",
     "description": "The description of the application"
   }
 }

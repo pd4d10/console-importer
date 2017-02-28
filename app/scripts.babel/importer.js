@@ -82,7 +82,7 @@
       })
       .catch(() => {
         log('There appears to be some trouble with your network. If you think this is a bug, please report an issue:')
-        log('https://github.com/pd4d10/import-from-console/issues')
+        log('https://github.com/pd4d10/console-importer/issues')
       })
   }
 

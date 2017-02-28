@@ -27,11 +27,10 @@
       "js": [
         "scripts/contentscript.js"
       ],
-      "run_at": "document_end",
-      "all_frames": false
+      "run_at": "document_end"
     }
   ],
   "web_accessible_resources": [
-    "scripts/inject.js"
+    "scripts/importer.js"
   ]
 }
