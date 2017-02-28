@@ -1,6 +1,6 @@
 # Console Importer
 
-Import JavaScript and CSS resources from console, with one command.
+Easily import JS and CSS resources from Chrome console, with one command.
 
 ![Demo](assets/demo.gif)
 
