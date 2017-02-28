@@ -2,7 +2,7 @@
 
 Easily import JS and CSS resources from Chrome console, with one command.
 
-<img src="assets/demo.gif" alt="Demo" width="640" />
+<img src="assets/js.gif" alt="Demo" width="640" />
 
 ## Installation
 
