@@ -34,8 +34,6 @@ CSS is supported, too:
 $i('https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css')
 ```
 
-![URL](assets/css.gif)
-
 ## Trouble shooting
 
 **Notice** that on some websites like GitHub, `$i` will fail to import resources. Console warning may be like follows:
