@@ -1,11 +1,16 @@
 ((window) => {
-  const NORMAL = 'color: #00f'
-  const ERROR = 'color: #c82828'
+  const NORMAL = 'color: #000'
+  const PREFIX = 'color: #00f'
+  const ERROR = 'color: #f00'
   const STRONG = 'color: #00f; font-weight: bold'
 
   // Add prefix to logs
   function log(message, ...colors) {
-    console.log(`[$i]: ${message}`, ...colors)
+    console.log(`%c[$i]: ${message}`, PREFIX, ...colors)
+  }
+
+  function logError(message, ...colors) {
+    console.log(`%c[$i]: ${message}`, ERROR, ...colors)
   }
 
   function createBeforeLoad(url) {
@@ -17,7 +22,7 @@
   }
 
   function createOnError(url) {
-    return () => log(`%cFail to load %c${url}%c, is this URL correct?`, ERROR, STRONG, ERROR)
+    return () => logError(`%cFail to load %c${url}%c, is this URL correct?`, NORMAL, STRONG, NORMAL)
   }
 
   // Insert script tag
@@ -64,7 +69,7 @@
       .then(res => res.json())
       .then(({ results }) => {
         if (results.length === 0) {
-          log(`%cSorry, %c${name}%c not found, please try another keyword`, ERROR, STRONG, ERROR)
+          logError(`%cSorry, %c${name}%c not found, please try another keyword`, NORMAL, STRONG, NORMAL)
           return
         }
 
@@ -73,7 +78,6 @@
           log(`%c${name}%c not found, import %c${exactName}%c instead.`, STRONG, NORMAL, STRONG, NORMAL)
         }
 
-        // log(`%c${exactName}%c is loading...`, STRONG, NORMAL)
         inject(url, createBeforeLoad(exactName), createOnLoad(exactName), createOnError(exactName))
       })
       .catch(() => {
@@ -92,7 +96,7 @@
   // Entry
   function importer(originName) {
     if (typeof originName !== 'string') {
-      throw new Error('$i\'s argument should be a string, please check it.')
+      throw new Error('Argument should be a string, please check it.')
     }
 
     // Trim string
