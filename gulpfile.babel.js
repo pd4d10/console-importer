@@ -25,7 +25,7 @@ function lint(files, options) {
 
 gulp.task('lint', lint('app/scripts.babel/**/*.js'))
 
-gulp.task('images', () => gulp.src('app/images/**/*')
+gulp.task('images', () => gulp.src('app/images/**/*.png')
     .pipe($.if($.if.isFile, $.cache($.imagemin({
       progressive: true,
       interlaced: true,
@@ -48,10 +48,15 @@ gulp.task('html', () => gulp.src('app/*.html')
     .pipe($.if('*.html', $.htmlmin({ removeComments: true, collapseWhitespace: true })))
     .pipe(gulp.dest('dist')))
 
+gulp.task('license', () => gulp
+  .src('LICENSE')
+  .pipe(gulp.dest('./dist')),
+)
+
 gulp.task('chromeManifest', () => gulp
   .src('app/manifest.json')
   .pipe($.chromeManifest({
-    buildnumber: true,
+    // buildnumber: true,
     background: {
       target: 'scripts/background.js',
       exclude: [
@@ -59,10 +64,13 @@ gulp.task('chromeManifest', () => gulp
       ],
     },
   }))
+  .pipe($.addSrc('app/scripts/importer.js', {
+    base: 'app',
+  }))
   .pipe($.if('*.css', $.cleanCss({ compatibility: '*' })))
   .pipe($.if('*.js', $.sourcemaps.init()))
   .pipe($.if('*.js', $.uglify()))
-  .pipe($.if('*.js', $.sourcemaps.write('.')))
+  // .pipe($.if('*.js', $.sourcemaps.write('.')))
   .pipe(gulp.dest('dist')))
 
 gulp.task('babel', () => gulp.src('app/scripts.babel/**/*.js')
@@ -72,7 +80,7 @@ gulp.task('babel', () => gulp.src('app/scripts.babel/**/*.js')
       }))
       .pipe(gulp.dest('app/scripts')))
 
-gulp.task('clean', del.bind(null, ['.tmp', 'dist']))
+gulp.task('clean', del.bind(null, ['.tmp', 'dist', 'app/scripts']))
 
 gulp.task('watch', ['lint', 'babel'], () => {
   $.livereload.listen()
@@ -108,7 +116,8 @@ gulp.task('package', () => {
 
 gulp.task('build', (cb) => {
   runSequence(
-    'lint', 'babel', 'chromeManifest',
+    'clean',
+    'lint', 'babel', 'chromeManifest', 'license',
     ['html', 'images', 'extras'],
     'size', cb)
 })

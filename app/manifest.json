@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "manifest_version": 2,
   "description": "__MSG_appDescription__",
+  "homepage_url": "https://github.com/pd4d10/console-importer",
   "icons": {
     "128": "images/icon.png"
   },

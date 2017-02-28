@@ -15,6 +15,7 @@
     "eslint-plugin-jsx-a11y": "^4.0.0",
     "eslint-plugin-react": "^6.10.0",
     "gulp": "^3.9.1",
+    "gulp-add-src": "^0.2.0",
     "gulp-babel": "^6.1.2",
     "gulp-cache": "^0.4.3",
     "gulp-chrome-manifest": "0.0.13",
