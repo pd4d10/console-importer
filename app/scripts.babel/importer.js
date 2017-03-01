@@ -117,5 +117,12 @@
 
   importer.cdnjs = cdnjs
   importer.unpkg = unpkg
-  window.$i = importer // eslint-disable-line
+
+  // Assign to console
+  console.$i = importer
+
+  // Do not break existing $i
+  if (typeof window.$i === 'undefined') {
+    window.$i = importer // eslint-disable-line
+  }
 })(window)
