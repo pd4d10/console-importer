@@ -36,7 +36,15 @@ $i('https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css')
 
 ## Trouble shooting
 
-**Notice** that on some websites like GitHub, `$i` will fail to import resources. Console warning may be like follows:
+### Q: `$i` doesn't work as expected
+
+Some websites like Google Inbox already have `$i` used as a global variable. This extension doesn't overwrite it.
+
+You can use `console.$i` on these websites.
+
+### Q: `$i` fail to import resources
+
+On some websites like GitHub, `$i` will fail to import resources. Console warning may be like follows:
 
 ```js
 Refused to load the stylesheet 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css' because it violates the following Content Security Policy directive: "style-src 'unsafe-inline' assets-cdn.github.com".
