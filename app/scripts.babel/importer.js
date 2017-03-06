@@ -118,6 +118,9 @@
   importer.cdnjs = cdnjs
   importer.unpkg = unpkg
 
+  // Do not output annoying ugly string of function content
+  importer.toString = () => ''
+
   // Assign to console
   console.$i = importer
 
