@@ -1,5 +1,5 @@
 {
-  "name": "import-from-console",
+  "name": "console-importer",
   "version": "1.1.0",
   "private": true,
   "engines": {
