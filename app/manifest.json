@@ -14,17 +14,14 @@
       "scripts/background.js"
     ]
   },
-  "permissions": [
-    "http://*/*",
-    "https://*/*",
-    "*://*.google.com/"
-  ],
+  "permissions": [],
   "content_scripts": [
     {
       "matches": [
-        "http://*/*",
-        "https://*/*"
+        "<all_urls>"
       ],
+      "all_frames": true,
+      "match_about_blank": true,
       "js": [
         "scripts/contentscript.js"
       ],
