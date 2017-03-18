@@ -6,7 +6,9 @@ Easily import JS and CSS resources from Chrome console, with one command.
 
 ## Installation
 
-Install it from [Chrome Web Store](https://chrome.google.com/webstore/detail/console-importer/hgajpakhafplebkdljleajgbpdmplhie)
+Install it from Chrome Web Store:
+
+https://chrome.google.com/webstore/detail/console-importer/hgajpakhafplebkdljleajgbpdmplhie
 
 ## Usage
 
