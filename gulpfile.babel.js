@@ -19,8 +19,6 @@ gulp.task('extras', () => gulp.src([
 
 function lint(files, options) {
   return () => gulp.src(files)
-      .pipe($.eslint(options))
-      .pipe($.eslint.format())
 }
 
 gulp.task('lint', lint('app/scripts.babel/**/*.js'))

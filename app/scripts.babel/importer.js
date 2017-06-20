@@ -1,4 +1,4 @@
-((window) => {
+;(window => {
   const NORMAL = 'color: #000'
   const PREFIX = 'color: #00f'
   const ERROR = 'color: #f00'
@@ -14,7 +14,8 @@
   }
 
   function createBeforeLoad(name) {
-    return () => log(`%c${name}%c is loading, please be patient...`, STRONG, NORMAL)
+    return () =>
+      log(`%c${name}%c is loading, please be patient...`, STRONG, NORMAL)
   }
 
   function createOnLoad(name, url) {
@@ -30,9 +31,19 @@
   function createOnError(name, url) {
     return () => {
       if (url) {
-        logError(`%cFail to load %c${name}%c, is this URL(${url}) correct?`, NORMAL, STRONG, NORMAL)
+        logError(
+          `%cFail to load %c${name}%c, is this URL(${url}) correct?`,
+          NORMAL,
+          STRONG,
+          NORMAL
+        )
       } else {
-        logError(`%cFail to load %c${name}%c, is this URL correct?`, NORMAL, STRONG, NORMAL)
+        logError(
+          `%cFail to load %c${name}%c, is this URL correct?`,
+          NORMAL,
+          STRONG,
+          NORMAL
+        )
       }
     }
   }
@@ -60,7 +71,7 @@
     url,
     beforeLoad = createBeforeLoad(url),
     onload = createOnLoad(url),
-    onerror = createOnError(url),
+    onerror = createOnError(url)
   ) {
     beforeLoad()
 
@@ -76,24 +87,48 @@
   // From cdnjs
   // https://cdnjs.com/
   function cdnjs(name) {
-    log(`%cSearching for %c${name}%c, please be patient...`, NORMAL, STRONG, NORMAL)
+    log(
+      `%cSearching for %c${name}%c, please be patient...`,
+      NORMAL,
+      STRONG,
+      NORMAL
+    )
     fetch(`https://api.cdnjs.com/libraries?search=${name}`)
       .then(res => res.json())
       .then(({ results }) => {
         if (results.length === 0) {
-          logError(`%cSorry, %c${name}%c not found, please try another keyword.`, NORMAL, STRONG, NORMAL)
+          logError(
+            `%cSorry, %c${name}%c not found, please try another keyword.`,
+            NORMAL,
+            STRONG,
+            NORMAL
+          )
           return
         }
 
         const { name: exactName, latest: url } = results[0]
         if (name !== exactName) {
-          log(`%c${name}%c not found, import %c${exactName}%c instead.`, STRONG, NORMAL, STRONG, NORMAL)
+          log(
+            `%c${name}%c not found, import %c${exactName}%c instead.`,
+            STRONG,
+            NORMAL,
+            STRONG,
+            NORMAL
+          )
         }
 
-        inject(url, createBeforeLoad(exactName), createOnLoad(exactName, url), createOnError(exactName, url))
+        inject(
+          url,
+          createBeforeLoad(exactName),
+          createOnLoad(exactName, url),
+          createOnError(exactName, url)
+        )
       })
       .catch(() => {
-        logError('%cThere appears to be some trouble with your network. If you think this is a bug, please report an issue:', NORMAL)
+        logError(
+          '%cThere appears to be some trouble with your network. If you think this is a bug, please report an issue:',
+          NORMAL
+        )
         logError('%chttps://github.com/pd4d10/console-importer/issues', NORMAL)
       })
   }
