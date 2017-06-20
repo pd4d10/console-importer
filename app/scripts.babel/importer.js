@@ -93,8 +93,8 @@
         inject(url, createBeforeLoad(exactName), createOnLoad(exactName, url), createOnError(exactName, url))
       })
       .catch(() => {
-        logError('There appears to be some trouble with your network. If you think this is a bug, please report an issue:')
-        logError('https://github.com/pd4d10/console-importer/issues')
+        logError('%cThere appears to be some trouble with your network. If you think this is a bug, please report an issue:', NORMAL)
+        logError('%chttps://github.com/pd4d10/console-importer/issues', NORMAL)
       })
   }
 
