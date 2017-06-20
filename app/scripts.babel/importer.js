@@ -141,6 +141,6 @@
   if (typeof window.$i === 'undefined') {
     window.$i = importer // eslint-disable-line
   } else {
-    console.log('$i is already in use, please use `console.$i` instead')
+    log('%c$i is already in use, please use `console.$i` instead', NORMAL)
   }
 })(window)
