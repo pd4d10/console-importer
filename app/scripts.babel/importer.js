@@ -13,16 +13,28 @@
     console.log(`%c[$i]: ${message}`, ERROR, ...colors)
   }
 
-  function createBeforeLoad(url) {
-    return () => log(`%c${url}%c is loading...`, STRONG, NORMAL)
+  function createBeforeLoad(name) {
+    return () => log(`%c${name}%c is loading, please be patient...`, STRONG, NORMAL)
   }
 
-  function createOnLoad(url) {
-    return () => log(`%c${url}%c is loaded.`, STRONG, NORMAL)
+  function createOnLoad(name, url) {
+    return () => {
+      if (url) {
+        log(`%c${name}%c(${url}) is loaded.`, STRONG, NORMAL)
+      } else {
+        log(`%c${name}%c is loaded.`, STRONG, NORMAL)
+      }
+    }
   }
 
-  function createOnError(url) {
-    return () => logError(`%cFail to load %c${url}%c, is this URL correct?`, NORMAL, STRONG, NORMAL)
+  function createOnError(name, url) {
+    return () => {
+      if (url) {
+        logError(`%cFail to load %c${name}%c, is this URL(${url}) correct?`, NORMAL, STRONG, NORMAL)
+      } else {
+        logError(`%cFail to load %c${name}%c, is this URL correct?`, NORMAL, STRONG, NORMAL)
+      }
+    }
   }
 
   // Insert script tag
@@ -69,7 +81,7 @@
       .then(res => res.json())
       .then(({ results }) => {
         if (results.length === 0) {
-          logError(`%cSorry, %c${name}%c not found, please try another keyword`, NORMAL, STRONG, NORMAL)
+          logError(`%cSorry, %c${name}%c not found, please try another keyword.`, NORMAL, STRONG, NORMAL)
           return
         }
 
@@ -78,7 +90,7 @@
           log(`%c${name}%c not found, import %c${exactName}%c instead.`, STRONG, NORMAL, STRONG, NORMAL)
         }
 
-        inject(url, createBeforeLoad(exactName), createOnLoad(exactName), createOnError(exactName))
+        inject(url, createBeforeLoad(exactName), createOnLoad(exactName, url), createOnError(exactName, url))
       })
       .catch(() => {
         logError('There appears to be some trouble with your network. If you think this is a bug, please report an issue:')
@@ -90,7 +102,8 @@
   // https://unpkg.com
   function unpkg(name) {
     createBeforeLoad(name)()
-    injectScript(`https://unpkg.com/${name}`, createOnLoad(name), createOnError(name))
+    const url = `https://unpkg.com/${name}`
+    injectScript(url, createOnLoad(name, url), createOnError(name, url))
   }
 
   // Entry
@@ -119,7 +132,7 @@
   importer.unpkg = unpkg
 
   // Do not output annoying ugly string of function content
-  importer.toString = () => ''
+  importer.toString = () => '$i'
 
   // Assign to console
   console.$i = importer
@@ -127,5 +140,7 @@
   // Do not break existing $i
   if (typeof window.$i === 'undefined') {
     window.$i = importer // eslint-disable-line
+  } else {
+    console.log('$i is already in use, please use `console.$i` instead')
   }
 })(window)
