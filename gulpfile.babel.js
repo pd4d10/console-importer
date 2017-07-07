@@ -120,12 +120,6 @@ gulp.task('build', (cb) => {
     'size', cb)
 })
 
-gulp.task('svg2png', () => gulp
-  .src('./app/images/*.svg')
-  .pipe($.svg2png())
-  .pipe(gulp.dest('./app/images')),
-)
-
 gulp.task('default', ['clean'], (cb) => {
   runSequence('build', cb)
 })
