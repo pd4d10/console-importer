@@ -55,6 +55,7 @@
     script.onload = onload
     script.onerror = onerror
     document.body.appendChild(script)
+    document.body.removeChild(script)
   }
 
   // Insert link tag
@@ -65,6 +66,7 @@
     link.onload = onload
     link.onerror = onerror
     document.head.appendChild(link)
+    document.body.removeChild(link)
   }
 
   function inject(
