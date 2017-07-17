@@ -48,24 +48,40 @@
     }
   }
 
+  const meta = document.createElement('meta')
+  meta.setAttribute('name', 'referrer')
+  meta.setAttribute('content', 'no-referrer')
+
+  function addNoReferrerMeta() {
+    document.head.appendChild(meta)
+  }
+
+  function removeNoReferrerMeta() {
+    document.head.removeChild(meta)
+  }
+
   // Insert script tag
   function injectScript(url, onload, onerror) {
+    addNoReferrerMeta()
     const script = document.createElement('script')
     script.src = url
     script.onload = onload
     script.onerror = onerror
     document.body.appendChild(script)
+    removeNoReferrerMeta()
     document.body.removeChild(script)
   }
 
   // Insert link tag
   function injectStyle(url, onload, onerror) {
+    addNoReferrerMeta()
     const link = document.createElement('link')
     link.href = url
     link.rel = 'stylesheet'
     link.onload = onload
     link.onerror = onerror
     document.head.appendChild(link)
+    removeNoReferrerMeta()
     document.body.removeChild(link)
   }
 
@@ -95,8 +111,13 @@
       STRONG,
       NORMAL
     )
+
+    addNoReferrerMeta()
     fetch(`https://api.cdnjs.com/libraries?search=${name}`)
-      .then(res => res.json())
+      .then(res => {
+        removeNoReferrerMeta()
+        return res.json()
+      })
       .then(({ results }) => {
         if (results.length === 0) {
           logError(
@@ -127,6 +148,7 @@
         )
       })
       .catch(() => {
+        removeNoReferrerMeta()
         logError(
           '%cThere appears to be some trouble with your network. If you think this is a bug, please report an issue:',
           NORMAL
