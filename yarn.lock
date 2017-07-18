@@ -789,9 +789,9 @@ change-case@2.3.x:
     upper-case "^1.1.1"
     upper-case-first "^1.1.0"
 
-cholk@^0.0.3:
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/cholk/-/cholk-0.0.3.tgz#19c0df94b57b88ef9b24793fe0e045d63edd8145"
+cholk@^0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/cholk/-/cholk-0.0.4.tgz#97e2049a260765e5be7052996871e567cd53339f"
 
 chrome-manifest@^0.2.4:
   version "0.2.9"
