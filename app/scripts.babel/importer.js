@@ -1,205 +1,173 @@
-;(window => {
-  const NORMAL = 'color: #000'
-  const PREFIX = 'color: #00f'
-  const ERROR = 'color: #f00'
-  const STRONG = 'color: #00f; font-weight: bold'
+import cholk from 'cholk'
 
-  // Add prefix to logs
-  function log(message, ...colors) {
-    console.log(`%c[$i]: ${message}`, PREFIX, ...colors)
+const PREFIX_TEXT = '[$i]: '
+const prefix = cholk.blue
+const strong = cholk.blue.bold
+const error = cholk.red
+const log = (...args) => cholk.log(prefix(PREFIX_TEXT), ...args)
+const logError = (...args) => cholk.log(error(PREFIX_TEXT), ...args)
+
+function createBeforeLoad(name) {
+  return () => log(strong(name), ' is loading, please be patient...')
+}
+
+function createOnLoad(name, url) {
+  return () => {
+    const urlText = url ? `(${url})` : ''
+    log(strong(name), `${urlText} is loaded.`)
   }
+}
 
-  function logError(message, ...colors) {
-    console.log(`%c[$i]: ${message}`, ERROR, ...colors)
-  }
-
-  function createBeforeLoad(name) {
-    return () =>
-      log(`%c${name}%c is loading, please be patient...`, STRONG, NORMAL)
-  }
-
-  function createOnLoad(name, url) {
-    return () => {
-      if (url) {
-        log(`%c${name}%c(${url}) is loaded.`, STRONG, NORMAL)
-      } else {
-        log(`%c${name}%c is loaded.`, STRONG, NORMAL)
-      }
-    }
-  }
-
-  function createOnError(name, url) {
-    return () => {
-      if (url) {
-        logError(
-          `%cFail to load %c${name}%c, is this URL(${url}) correct?`,
-          NORMAL,
-          STRONG,
-          NORMAL
-        )
-      } else {
-        logError(
-          `%cFail to load %c${name}%c, is this URL correct?`,
-          NORMAL,
-          STRONG,
-          NORMAL
-        )
-      }
-    }
-  }
-
-  const meta = document.createElement('meta')
-  meta.setAttribute('name', 'referrer')
-  meta.setAttribute('content', 'no-referrer')
-
-  function addNoReferrerMeta() {
-    document.head.appendChild(meta)
-  }
-
-  function removeNoReferrerMeta() {
-    document.head.removeChild(meta)
-  }
-
-  // Insert script tag
-  function injectScript(url, onload, onerror) {
-    addNoReferrerMeta()
-    const script = document.createElement('script')
-    script.src = url
-    script.onload = onload
-    script.onerror = onerror
-    document.body.appendChild(script)
-    removeNoReferrerMeta()
-    document.body.removeChild(script)
-  }
-
-  // Insert link tag
-  function injectStyle(url, onload, onerror) {
-    addNoReferrerMeta()
-    const link = document.createElement('link')
-    link.href = url
-    link.rel = 'stylesheet'
-    link.onload = onload
-    link.onerror = onerror
-    document.head.appendChild(link)
-    removeNoReferrerMeta()
-    document.body.removeChild(link)
-  }
-
-  function inject(
-    url,
-    beforeLoad = createBeforeLoad(url),
-    onload = createOnLoad(url),
-    onerror = createOnError(url)
-  ) {
-    beforeLoad()
-
-    // Handle CSS
-    if (/\.css$/.test(url)) {
-      return injectStyle(url, onload, onerror)
-    }
-
-    // Handle JS
-    return injectScript(url, onload, onerror)
-  }
-
-  // From cdnjs
-  // https://cdnjs.com/
-  function cdnjs(name) {
-    log(
-      `%cSearching for %c${name}%c, please be patient...`,
-      NORMAL,
-      STRONG,
-      NORMAL
+function createOnError(name, url) {
+  return () => {
+    const urlText = url ? `(${strong(url)})` : ''
+    logError(
+      'Fail to load ',
+      strong(name),
+      ', is this URL(',
+      urlText,
+      ' correct?'
     )
+  }
+}
 
-    addNoReferrerMeta()
-    fetch(`https://api.cdnjs.com/libraries?search=${name}`)
-      .then(res => {
-        removeNoReferrerMeta()
-        return res.json()
-      })
-      .then(({ results }) => {
-        if (results.length === 0) {
-          logError(
-            `%cSorry, %c${name}%c not found, please try another keyword.`,
-            NORMAL,
-            STRONG,
-            NORMAL
-          )
-          return
-        }
+const meta = document.createElement('meta')
+meta.setAttribute('name', 'referrer')
+meta.setAttribute('content', 'no-referrer')
 
-        const { name: exactName, latest: url } = results[0]
-        if (name !== exactName) {
-          log(
-            `%c${name}%c not found, import %c${exactName}%c instead.`,
-            STRONG,
-            NORMAL,
-            STRONG,
-            NORMAL
-          )
-        }
+function addNoReferrerMeta() {
+  document.head.appendChild(meta)
+}
 
-        inject(
-          url,
-          createBeforeLoad(exactName),
-          createOnLoad(exactName, url),
-          createOnError(exactName, url)
-        )
-      })
-      .catch(() => {
-        removeNoReferrerMeta()
+function removeNoReferrerMeta() {
+  document.head.removeChild(meta)
+}
+
+// Insert script tag
+function injectScript(url, onload, onerror) {
+  addNoReferrerMeta()
+  const script = document.createElement('script')
+  script.src = url
+  script.onload = onload
+  script.onerror = onerror
+  document.body.appendChild(script)
+  removeNoReferrerMeta()
+  document.body.removeChild(script)
+}
+
+// Insert link tag
+function injectStyle(url, onload, onerror) {
+  addNoReferrerMeta()
+  const link = document.createElement('link')
+  link.href = url
+  link.rel = 'stylesheet'
+  link.onload = onload
+  link.onerror = onerror
+  document.head.appendChild(link)
+  removeNoReferrerMeta()
+  document.body.removeChild(link)
+}
+
+function inject(
+  url,
+  beforeLoad = createBeforeLoad(url),
+  onload = createOnLoad(url),
+  onerror = createOnError(url)
+) {
+  beforeLoad()
+
+  // Handle CSS
+  if (/\.css$/.test(url)) {
+    return injectStyle(url, onload, onerror)
+  }
+
+  // Handle JS
+  return injectScript(url, onload, onerror)
+}
+
+// From cdnjs
+// https://cdnjs.com/
+function cdnjs(name) {
+  log('Searching for ', strong(name), ', please be patient...')
+  addNoReferrerMeta()
+  fetch(`https://api.cdnjs.com/libraries?search=${name}`)
+    .then(res => {
+      removeNoReferrerMeta()
+      return res.json()
+    })
+    .then(({ results }) => {
+      if (results.length === 0) {
         logError(
-          '%cThere appears to be some trouble with your network. If you think this is a bug, please report an issue:',
-          NORMAL
+          'Sorry, ',
+          strong(name),
+          ' not found, please try another keyword.'
         )
-        logError('%chttps://github.com/pd4d10/console-importer/issues', NORMAL)
-      })
+        return
+      }
+
+      const { name: exactName, latest: url } = results[0]
+      if (name !== exactName) {
+        log(strong(name), ' not found, import ', strong(exactName), ' instead.')
+      }
+
+      inject(
+        url,
+        createBeforeLoad(exactName),
+        createOnLoad(exactName, url),
+        createOnError(exactName, url)
+      )
+    })
+    .catch(() => {
+      removeNoReferrerMeta()
+      logError(
+        'There appears to be some trouble with your network. If you think this is a bug, please report an issue:'
+      )
+      logError('https://github.com/pd4d10/console-importer/issues')
+    })
+}
+
+// From unpkg
+// https://unpkg.com
+function unpkg(name) {
+  createBeforeLoad(name)()
+  const url = `https://unpkg.com/${name}`
+  injectScript(url, createOnLoad(name, url), createOnError(name, url))
+}
+
+// Entry
+function importer(originName) {
+  if (typeof originName !== 'string') {
+    throw new Error('Argument should be a string, please check it.')
   }
 
-  // From unpkg
-  // https://unpkg.com
-  function unpkg(name) {
-    createBeforeLoad(name)()
-    const url = `https://unpkg.com/${name}`
-    injectScript(url, createOnLoad(name, url), createOnError(name, url))
+  // Trim string
+  const name = originName.trim()
+
+  // If it is a valid URL, inject it directly
+  if (/^https?:\/\//.test(name)) {
+    return inject(name)
   }
 
-  // Entry
-  function importer(originName) {
-    if (typeof originName !== 'string') {
-      throw new Error('Argument should be a string, please check it.')
-    }
-
-    // Trim string
-    const name = originName.trim()
-
-    // If it is a valid URL, inject it directly
-    if (/^https?:\/\//.test(name)) {
-      return inject(name)
-    }
-
-    // If version specified, try unpkg
-    if (name.includes('@')) {
-      return unpkg(name)
-    }
-
-    return cdnjs(name)
+  // If version specified, try unpkg
+  if (name.includes('@')) {
+    return unpkg(name)
   }
 
-  importer.cdnjs = cdnjs
-  importer.unpkg = unpkg
+  return cdnjs(name)
+}
 
-  // Do not output annoying ugly string of function content
-  importer.toString = () => '$i'
+importer.cdnjs = cdnjs
+importer.unpkg = unpkg
 
-  // Assign to console
-  console.$i = importer
+// Do not output annoying ugly string of function content
+importer.toString = () => '$i'
 
-  // Do not break existing $i
-  if (typeof window.$i === 'undefined') {
-    window.$i = importer // eslint-disable-line
-  } else {
-    log('%c$i is already in use, please use `console.$i` instead', NORMAL)
-  }
-})(window)
+// Assign to console
+console.$i = importer
+
+// Do not break existing $i
+if (typeof window.$i === 'undefined') {
+  window.$i = importer
+} else {
+  log('$i is already in use, please use `console.$i` instead')
+}
