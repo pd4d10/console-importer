@@ -1,8 +1,9 @@
-import gulp from 'gulp'
-import gulpLoadPlugins from 'gulp-load-plugins'
-import del from 'del'
-import runSequence from 'run-sequence'
-import { stream as wiredep } from 'wiredep'
+var gulp = require('gulp')
+var gulpLoadPlugins = require('gulp-load-plugins');
+var del = require('del');
+var runSequence = require('run-sequence');
+var wiredep = require('wiredep').stream;
+var rollup = require('gulp-better-rollup')
 
 const $ = gulpLoadPlugins()
 
@@ -72,11 +73,24 @@ gulp.task('chromeManifest', () => gulp
   .pipe(gulp.dest('dist')))
 
 gulp.task('babel', () => gulp.src('app/scripts.babel/**/*.js')
-      .pipe($.plumber())
-      .pipe($.babel({
-        presets: ['es2015'],
-      }))
-      .pipe(gulp.dest('app/scripts')))
+  .pipe($.plumber())
+  // .pipe($.babel({
+  //   presets: ['es2015'],
+  // }))
+  .pipe(rollup({
+    // notice there is no `entry` option as rollup integrates into gulp pipeline
+    plugins: [
+      require('rollup-plugin-node-resolve')(),
+      require('rollup-plugin-commonjs')(),
+      require('rollup-plugin-babel')({
+        exclude: 'node_modules/**'
+      })
+    ]
+  }, {
+    // also rollups `sourceMap` option is replaced by gulp-sourcemaps plugin
+    format: 'iife',
+  }))
+  .pipe(gulp.dest('app/scripts')))
 
 gulp.task('clean', del.bind(null, ['.tmp', 'dist', 'app/scripts']))
 
