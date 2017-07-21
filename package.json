@@ -41,6 +41,6 @@
     "wiredep": "^4.0.0"
   },
   "dependencies": {
-    "tiza": "^1.0.0"
+    "tiza": "^2.0.0"
   }
 }

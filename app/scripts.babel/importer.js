@@ -1,11 +1,11 @@
 import tiza from 'tiza'
 
 const PREFIX_TEXT = '[$i]: '
-const prefix = tiza().color('blue').text
-const strong = tiza().color('blue').bold().text
-const error = tiza().color('red').text
-const log = (...args) => tiza().log(prefix(PREFIX_TEXT), ...args)
-const logError = (...args) => tiza().log(error(PREFIX_TEXT), ...args)
+const prefix = tiza.color('blue').text
+const strong = tiza.color('blue').bold().text
+const error = tiza.color('red').text
+const log = (...args) => tiza.log(prefix(PREFIX_TEXT), ...args)
+const logError = (...args) => tiza.log(error(PREFIX_TEXT), ...args)
 
 function createBeforeLoad(name) {
   return () => log(strong(name), ' is loading, please be patient...')

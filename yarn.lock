@@ -4184,9 +4184,9 @@ title-case@^1.1.0:
     sentence-case "^1.1.1"
     upper-case "^1.0.3"
 
-tiza@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/tiza/-/tiza-1.0.0.tgz#08e7eaeb3490dc1d46a93a2a575ee4a46ad6faed"
+tiza@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/tiza/-/tiza-2.0.0.tgz#40f80405ce2f9ff633407feeedda90051977640d"
 
 to-absolute-glob@^0.1.1:
   version "0.1.1"
