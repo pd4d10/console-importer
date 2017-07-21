@@ -41,6 +41,6 @@
     "wiredep": "^4.0.0"
   },
   "dependencies": {
-    "cholk": "^0.0.4"
+    "tiza": "^1.0.0"
   }
 }

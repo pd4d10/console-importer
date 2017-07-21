@@ -789,10 +789,6 @@ change-case@2.3.x:
     upper-case "^1.1.1"
     upper-case-first "^1.1.0"
 
-cholk@^0.0.4:
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/cholk/-/cholk-0.0.4.tgz#97e2049a260765e5be7052996871e567cd53339f"
-
 chrome-manifest@^0.2.4:
   version "0.2.9"
   resolved "https://registry.yarnpkg.com/chrome-manifest/-/chrome-manifest-0.2.9.tgz#fa9a13f83350110762263f8da2ae0290e94ed4e9"
@@ -4187,6 +4183,10 @@ title-case@^1.1.0:
   dependencies:
     sentence-case "^1.1.1"
     upper-case "^1.0.3"
+
+tiza@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/tiza/-/tiza-1.0.0.tgz#08e7eaeb3490dc1d46a93a2a575ee4a46ad6faed"
 
 to-absolute-glob@^0.1.1:
   version "0.1.1"
