@@ -31,40 +31,56 @@ function createOnError(name, url) {
   }
 }
 
-const meta = document.createElement('meta')
-meta.setAttribute('name', 'referrer')
-meta.setAttribute('content', 'no-referrer')
-
+// Try to remove referrer for security
+// https://imququ.com/post/referrer-policy.html
+// https://www.w3.org/TR/referrer-policy/
 function addNoReferrerMeta() {
-  document.head.appendChild(meta)
-}
+  const originMeta = document.querySelector('meta[name=referrer]')
 
-function removeNoReferrerMeta() {
-  document.head.removeChild(meta)
+  if (originMeta) {
+    // If there is already a referrer policy meta tag, save origin content
+    // and then change it, call `remove` to restore it
+    const content = originMeta.content
+    originMeta.content = 'no-referrer'
+    return function remove() {
+      originMeta.content = content
+    }
+  } else {
+    // Else, create a new one, call `remove` to delete it
+    const meta = document.createElement('meta')
+    meta.name = 'referrer'
+    meta.content = 'no-referrer'
+    document.head.appendChild(meta)
+    return function remove() {
+      // Removing meta tag directly not work, should set it to default first
+      meta.content = 'no-referrer-when-downgrade'
+      document.head.removeChild(meta)
+    }
+  }
 }
 
 // Insert script tag
 function injectScript(url, onload, onerror) {
-  addNoReferrerMeta()
+  const remove = addNoReferrerMeta()
   const script = document.createElement('script')
   script.src = url
   script.onload = onload
   script.onerror = onerror
   document.body.appendChild(script)
-  removeNoReferrerMeta()
+  remove()
   document.body.removeChild(script)
 }
 
 // Insert link tag
 function injectStyle(url, onload, onerror) {
-  addNoReferrerMeta()
+  const remove = addNoReferrerMeta()
   const link = document.createElement('link')
   link.href = url
   link.rel = 'stylesheet'
   link.onload = onload
   link.onerror = onerror
   document.head.appendChild(link)
-  removeNoReferrerMeta()
+  remove()
   document.body.removeChild(link)
 }
 
@@ -89,10 +105,10 @@ function inject(
 // https://cdnjs.com/
 function cdnjs(name) {
   log('Searching for ', strong(name), ', please be patient...')
-  addNoReferrerMeta()
-  fetch(`https://api.cdnjs.com/libraries?search=${name}`)
+  fetch(`https://api.cdnjs.com/libraries?search=${name}`, {
+    referrerPolicy: 'no-referrer',
+  })
     .then(res => {
-      removeNoReferrerMeta()
       return res.json()
     })
     .then(({ results }) => {
@@ -118,7 +134,6 @@ function cdnjs(name) {
       )
     })
     .catch(() => {
-      removeNoReferrerMeta()
       logError(
         'There appears to be some trouble with your network. If you think this is a bug, please report an issue:'
       )

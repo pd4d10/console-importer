@@ -3,9 +3,11 @@
   "version": "1.3.0",
   "private": true,
   "scripts": {
-    "start": "gulp",
-    "test": "prettier --no-semi --single-quote --trailing-comma es5 app/scripts.babel/*",
-    "precommit": "prettier --write --no-semi --single-quote --trailing-comma es5 app/scripts.babel/*"
+    "start": "gulp watch",
+    "lint": "prettier --no-semi --single-quote --trailing-comma es5 app/scripts.babel/*",
+    "unit-test": "karma",
+    "test": "npm run lint && npm run unit-test",
+    "precommit": "prettier --no-semi --single-quote --trailing-comma es5 app/scripts.babel/* --write"
   },
   "devDependencies": {
     "babel-core": "^6.7.2",
