@@ -81,7 +81,7 @@ function injectStyle(url, onload, onerror) {
   link.onerror = onerror
   document.head.appendChild(link)
   remove()
-  document.body.removeChild(link)
+  document.head.removeChild(link)
 }
 
 function inject(
