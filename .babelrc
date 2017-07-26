@@ -6,5 +6,10 @@
         "modules": false
       }
     ]
-  ]
+  ],
+  "env": {
+    "test": {
+      "plugins": ["istanbul"]
+    }
+  }
 }
