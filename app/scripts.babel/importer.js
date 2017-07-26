@@ -186,3 +186,6 @@ if (typeof window.$i === 'undefined') {
 } else {
   log('$i is already in use, please use `console.$i` instead')
 }
+
+// For unit test
+export default importer
