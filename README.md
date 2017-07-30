@@ -1,14 +1,12 @@
 # Console Importer
 
-Easily import JS and CSS resources from Chrome console, with one command.
-
-<img src="assets/js.gif" alt="Demo" width="640" />
-
 [![Build Status](https://travis-ci.org/pd4d10/console-importer.svg?branch=master)](https://travis-ci.org/pd4d10/console-importer)
 [![codecov](https://codecov.io/gh/pd4d10/console-importer/branch/master/graph/badge.svg)](https://codecov.io/gh/pd4d10/console-importer)
 [![Chrome Web Store](https://img.shields.io/chrome-web-store/v/hgajpakhafplebkdljleajgbpdmplhie.svg)](https://chrome.google.com/webstore/detail/console-importer/hgajpakhafplebkdljleajgbpdmplhie)
 [![Chrome Web Store](https://img.shields.io/chrome-web-store/d/hgajpakhafplebkdljleajgbpdmplhie.svg)](https://chrome.google.com/webstore/detail/console-importer/hgajpakhafplebkdljleajgbpdmplhie)
 [![Chrome Web Store](https://img.shields.io/chrome-web-store/stars/hgajpakhafplebkdljleajgbpdmplhie.svg)](https://chrome.google.com/webstore/detail/console-importer/hgajpakhafplebkdljleajgbpdmplhie)
+
+<img src="assets/js.gif" alt="Demo" width="640" />
 
 ## Installation
 
