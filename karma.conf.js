@@ -58,6 +58,7 @@ module.exports = function(config) {
     // Configure code coverage reporter
     coverageReporter: {
         reporters: [
+            {type: 'html'},
             // generates ./coverage/lcov.info
             {type:'lcovonly', subdir: '.'},
             // generates ./coverage/coverage-final.json

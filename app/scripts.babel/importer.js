@@ -108,9 +108,7 @@ function cdnjs(name) {
   fetch(`https://api.cdnjs.com/libraries?search=${name}`, {
     referrerPolicy: 'no-referrer',
   })
-    .then(res => {
-      return res.json()
-    })
+    .then(res => res.json())
     .then(({ results }) => {
       if (results.length === 0) {
         logError(
@@ -164,7 +162,7 @@ function importer(originName) {
   }
 
   // If version specified, try unpkg
-  if (name.includes('@')) {
+  if (name.indexOf('@') !== -1) {
     return unpkg(name)
   }
 

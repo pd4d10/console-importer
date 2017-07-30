@@ -1,21 +1,30 @@
 import $i from '../app/scripts.babel/importer'
 
-const TIMEOUT = 8000
+const TIMEOUT = 4000
 const prefix = 'color:blue'
 const strong = 'color:blue;font-weight:bold'
 const error = 'color:red'
 
 describe('Console Importer', function() {
-  beforeEach(function() {
-    window.$i = $i
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000
-  })
-
   // describe('append', function() {
   //   it('should be append to window', function() {
   //     expect(typeof window.$i).toBe('function');
   //   });
   // });
+
+  describe('Argument checking', function() {
+    it('should throw error', function() {
+      expect(() => $i({})).toThrowError(
+        'Argument should be a string, please check it.'
+      )
+    })
+  })
+
+  describe('Do not output ugly string', function() {
+    it('', function() {
+      expect($i.toString()).toBe('$i')
+    })
+  })
 
   describe('import JS URL', function() {
     const url = `https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js`
@@ -197,6 +206,25 @@ describe('Console Importer', function() {
     })
   })
 
+  describe('import keyword with no results', function() {
+    beforeEach(function() {
+      spyOn(console, 'log').and.callThrough()
+      $i('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
+    })
+    it('should log error', function(done) {
+      setTimeout(() => {
+        expect(console.log).toHaveBeenCalledWith(
+          '%c[$i]: %cSorry, %caaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa%c not found, please try another keyword.',
+          error,
+          '',
+          strong,
+          ''
+        )
+        done()
+      }, TIMEOUT)
+    })
+  })
+
   describe('import specific version', function() {
     beforeEach(function() {
       spyOn(console, 'log').and.callThrough()
@@ -216,6 +244,33 @@ describe('Console Importer', function() {
           prefix,
           strong,
           ''
+        )
+        done()
+      }, TIMEOUT)
+    })
+  })
+
+  describe('Meta tag', function() {
+    it('should remove after executed', function(done) {
+      $i('https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js')
+      expect(document.querySelector('meta[name=referrer]')).toBe(null)
+      setTimeout(() => {
+        expect(document.querySelector('meta[name=referrer]')).toBe(null)
+        done()
+      }, TIMEOUT)
+    })
+    it('should not be changed if existing', function(done) {
+      const meta = document.createElement('meta')
+      meta.name = 'referrer'
+      meta.content = 'origin'
+      document.head.appendChild(meta)
+      $i('https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js')
+      expect(document.querySelector('meta[name=referrer]').content).toBe(
+        'origin'
+      )
+      setTimeout(() => {
+        expect(document.querySelector('meta[name=referrer]').content).toBe(
+          'origin'
         )
         done()
       }, TIMEOUT)
