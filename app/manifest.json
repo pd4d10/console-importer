@@ -5,7 +5,7 @@
   "description": "__MSG_appDescription__",
   "homepage_url": "https://github.com/pd4d10/console-importer",
   "icons": {
-    "128": "images/icon.png"
+    "256": "images/icon.png"
   },
   "default_locale": "en",
   "background": {

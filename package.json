@@ -6,6 +6,7 @@
     "start": "gulp watch",
     "test": "NODE_ENV=test karma start --single-run --browsers ChromeHeadless",
     "watch": "NODE_ENV=test karma start",
+    "icon": "rm app/images/icon.png; svg2png app/images/icon.svg -o app/images/icon.png",
     "lint": "prettier --no-semi --single-quote --trailing-comma es5 app/scripts.babel/* test/*",
     "precommit": "prettier --no-semi --single-quote --trailing-comma es5 app/scripts.babel/* test/* --write"
   },
@@ -49,6 +50,7 @@
     "rollup-plugin-commonjs": "^8.0.2",
     "rollup-plugin-node-resolve": "^3.0.0",
     "run-sequence": "^1.1.5",
+    "svg2png": "^4.1.1",
     "wiredep": "^4.0.0"
   },
   "dependencies": {
