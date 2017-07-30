@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<svg width="256" height="256" xmlns="http://www.w3.org/2000/svg">
+<svg width="128" height="128" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <style>@import url(https://fonts.googleapis.com/css?family=Averia+Serif+Libre);</style>
   </defs>
-  <text x="50%" y="80%" font-size="228" fill="blue" stroke-width="0" font-family="Averia Serif Libre" text-anchor="middle">$i</text>
+  <text x="50%" y="80%" font-size="114" fill="blue" stroke-width="0" font-family="Averia Serif Libre" text-anchor="middle">$i</text>
 </svg>
