@@ -1,4 +1,4 @@
-import $i from '../app/scripts.babel/importer'
+import '../app/scripts.babel/importer'
 
 const TIMEOUT = 4000
 const prefix = 'color:blue'
@@ -10,24 +10,19 @@ const cssUrl =
   'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'
 
 describe('Console Importer', function() {
-  // describe('append', function() {
-  //   it('should be append to window', function() {
-  //     expect(typeof window.$i).toBe('function');
-  //   });
-  // });
-
-  describe('Argument checking', function() {
-    it('should throw error', function() {
-      expect(() => $i({})).toThrowError(
-        'Argument should be a string, please check it.'
-      )
-    })
+  it('should append to window', function() {
+    expect(typeof window.$i).toBe('function')
+    expect(typeof console.$i).toBe('function')
   })
 
-  describe('Do not output ugly string', function() {
-    it('', function() {
-      expect($i.toString()).toBe('$i')
-    })
+  it('should throw error when argument is invalid', function() {
+    expect(() => $i({})).toThrowError(
+      'Argument should be a string, please check it.'
+    )
+  })
+
+  it('should not output ugly string', function() {
+    expect($i.toString()).toBe('$i')
   })
 
   describe('import JS URL', function() {
