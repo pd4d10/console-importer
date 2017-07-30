@@ -24,7 +24,7 @@ function createOnError(name, url) {
     logError(
       'Fail to load ',
       strong(name),
-      ', is this URL(',
+      ', is this URL',
       urlText,
       ' correct?'
     )
@@ -77,11 +77,12 @@ function injectStyle(url, onload, onerror) {
   const link = document.createElement('link')
   link.href = url
   link.rel = 'stylesheet'
+  // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/link#Stylesheet_load_events
   link.onload = onload
   link.onerror = onerror
   document.head.appendChild(link)
   remove()
-  document.head.removeChild(link)
+  // Should not remove <link> tag, unlike <script>
 }
 
 function inject(

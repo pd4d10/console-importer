@@ -4,6 +4,10 @@ const TIMEOUT = 4000
 const prefix = 'color:blue'
 const strong = 'color:blue;font-weight:bold'
 const error = 'color:red'
+const jsUrl =
+  'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js'
+const cssUrl =
+  'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'
 
 describe('Console Importer', function() {
   // describe('append', function() {
@@ -27,29 +31,26 @@ describe('Console Importer', function() {
   })
 
   describe('import JS URL', function() {
-    const url = `https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js`
-
     beforeEach(function() {
       spyOn(console, 'log').and.callThrough()
-      $i(url)
+      $i(jsUrl)
     })
 
     it('should import', function(done) {
       expect(console.log).toHaveBeenCalledWith(
-        `%c[$i]: %c${url}%c is loading, please be patient...`,
+        `%c[$i]: %c${jsUrl}%c is loading, please be patient...`,
         prefix,
         strong,
         ''
       )
       setTimeout(() => {
-        expect(document.querySelector(`script[src="${url}"]`)).toBe(null)
-        expect(window.$.fn.jquery).toBe('3.1.1')
         expect(console.log).toHaveBeenCalledWith(
-          `%c[$i]: %c${url}%c is loaded.`,
+          `%c[$i]: %c${jsUrl}%c is loaded.`,
           prefix,
           strong,
           ''
         )
+        expect(window.$.fn.jquery).toBe('3.1.1')
         done()
       }, TIMEOUT)
     })
@@ -70,46 +71,41 @@ describe('Console Importer', function() {
         ''
       )
       setTimeout(() => {
-        expect(document.querySelector(`script[src="${url}"]`)).toBe(null)
-        // expect(console.log).toHaveBeenCalledWith(
-        //   `%c[$i]: %cFail to load %c${url}%c, is this URL%c%c correct?`,
-        //   error,
-        //   '',
-        //   strong,
-        //  '',
-        //   '',
-        //   ''
-        // )
+        expect(console.log).toHaveBeenCalledWith(
+          `%c[$i]: %cFail to load %c${url}%c, is this URL%c%c correct?`,
+          error,
+          '',
+          strong,
+          '',
+          '',
+          ''
+        )
         done()
       }, TIMEOUT)
     })
   })
 
   describe('import CSS URL', function() {
-    const url =
-      'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'
-
     beforeEach(function() {
       spyOn(console, 'log').and.callThrough()
-      $i(url)
+      $i(cssUrl)
     })
 
     it('should import', function(done) {
       expect(console.log).toHaveBeenCalledWith(
-        `%c[$i]: %c${url}%c is loading, please be patient...`,
+        `%c[$i]: %c${cssUrl}%c is loading, please be patient...`,
         prefix,
         strong,
         ''
       )
       setTimeout(() => {
-        expect(document.querySelector(`link[src="${url}"]`)).toBe(null)
-        // expect(getComputedStyle(document.body).boxSizing).toBe('border-box');
-        // expect(console.log).toHaveBeenCalledWith(
-        //   `%c[$i]: %c${url}%c is loaded.`,
-        //   prefix,
-        //   strong,
-        //   ''
-        // );
+        expect(getComputedStyle(document.body).boxSizing).toBe('border-box')
+        expect(console.log).toHaveBeenCalledWith(
+          `%c[$i]: %c${cssUrl}%c is loaded.`,
+          prefix,
+          strong,
+          ''
+        )
         done()
       }, TIMEOUT)
     })
@@ -123,13 +119,25 @@ describe('Console Importer', function() {
       $i(url)
     })
 
-    it('should not import', function() {
+    it('should not import', function(done) {
       expect(console.log).toHaveBeenCalledWith(
         `%c[$i]: %c${url}%c is loading, please be patient...`,
         prefix,
         strong,
         ''
       )
+      setTimeout(() => {
+        expect(console.log).toHaveBeenCalledWith(
+          `%c[$i]: %cFail to load %c${url}%c, is this URL%c%c correct?`,
+          error,
+          '',
+          strong,
+          '',
+          '',
+          ''
+        )
+        done()
+      }, TIMEOUT)
     })
   })
 
@@ -147,19 +155,19 @@ describe('Console Importer', function() {
         ''
       )
       setTimeout(() => {
-        expect(window.$.fn.jquery).toBeDefined()
         expect(console.log).toHaveBeenCalledWith(
           '%c[$i]: %cjquery%c is loading, please be patient...',
           prefix,
           strong,
           ''
         )
-        // expect(console.log).toHaveBeenCalledWith(
-        //   jasmine.any(),
-        //   prefix,
-        //   strong,
-        //   ''
-        // );
+        expect(console.log).toHaveBeenCalledWith(
+          jasmine.any(String),
+          prefix,
+          strong,
+          ''
+        )
+        expect(window.$.fn.jquery).toBeDefined()
         done()
       }, TIMEOUT)
     })
@@ -187,20 +195,19 @@ describe('Console Importer', function() {
           strong,
           ''
         )
-
-        expect(window.$.fn.jquery).toBeDefined()
         expect(console.log).toHaveBeenCalledWith(
           '%c[$i]: %cjquery%c is loading, please be patient...',
           prefix,
           strong,
           ''
         )
-        // expect(console.log).toHaveBeenCalledWith(
-        //   jasmine.any(),
-        //   prefix,
-        //   strong,
-        //   ''
-        // );
+        expect(console.log).toHaveBeenCalledWith(
+          jasmine.any(String),
+          prefix,
+          strong,
+          ''
+        )
+        expect(window.$.fn.jquery).toBeDefined()
         done()
       }, TIMEOUT)
     })
@@ -250,9 +257,18 @@ describe('Console Importer', function() {
     })
   })
 
+  it('Remove script tag after injected', function(done) {
+    $i(jsUrl)
+    expect(document.querySelector(`script[src="${jsUrl}"]`)).toBe(null)
+    setTimeout(() => {
+      expect(document.querySelector(`script[src="${jsUrl}"]`)).toBe(null)
+      done()
+    }, TIMEOUT)
+  })
+
   describe('Meta tag', function() {
     it('should remove after executed', function(done) {
-      $i('https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js')
+      $i(jsUrl)
       expect(document.querySelector('meta[name=referrer]')).toBe(null)
       setTimeout(() => {
         expect(document.querySelector('meta[name=referrer]')).toBe(null)
@@ -264,7 +280,7 @@ describe('Console Importer', function() {
       meta.name = 'referrer'
       meta.content = 'origin'
       document.head.appendChild(meta)
-      $i('https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js')
+      $i(jsUrl)
       expect(document.querySelector('meta[name=referrer]').content).toBe(
         'origin'
       )
