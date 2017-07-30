@@ -4,10 +4,10 @@
   "private": true,
   "scripts": {
     "start": "gulp watch",
-    "test": "NODE_ENV=test karma start --single-run --browsers PhantomJS",
+    "test": "NODE_ENV=test karma start --single-run --browsers ChromeHeadless",
     "watch": "NODE_ENV=test karma start",
-    "lint": "prettier --no-semi --single-quote --trailing-comma es5 app/scripts.babel/*",
-    "precommit": "prettier --no-semi --single-quote --trailing-comma es5 app/scripts.babel/* --write"
+    "lint": "prettier --no-semi --single-quote --trailing-comma es5 app/scripts.babel/* test/*",
+    "precommit": "prettier --no-semi --single-quote --trailing-comma es5 app/scripts.babel/* test/* --write"
   },
   "devDependencies": {
     "babel-core": "^6.7.2",
@@ -34,16 +34,15 @@
     "gulp-useref": "^3.0.8",
     "gulp-zip": "^3.2.0",
     "husky": "^0.13.4",
-    "main-bower-files": "^2.11.1",
     "jasmine-core": "^2.6.4",
     "karma": "^1.7.0",
     "karma-chrome-launcher": "^2.2.0",
     "karma-coverage": "^1.1.1",
     "karma-firefox-launcher": "^1.0.1",
     "karma-jasmine": "^1.1.0",
-    "karma-phantomjs-launcher": "^1.0.4",
     "karma-rollup-preprocessor": "^4.0.1",
     "karma-safari-launcher": "^1.0.0",
+    "main-bower-files": "^2.11.1",
     "prettier": "^1.4.4",
     "rollup": "^0.45.2",
     "rollup-plugin-babel": "^2.7.1",

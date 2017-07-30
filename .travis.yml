@@ -1,5 +1,8 @@
 language: node_js
 node_js: node
+dist: trusty
+addons:
+  chrome: stable
 after_success:
   - npm install -g codecov
   - codecov
