@@ -5,7 +5,7 @@
 const LIVERELOAD_HOST = 'localhost:'
 const LIVERELOAD_PORT = 35729
 const connection = new WebSocket(
-  `ws://${LIVERELOAD_HOST}${LIVERELOAD_PORT}/livereload`
+  `ws://${LIVERELOAD_HOST}${LIVERELOAD_PORT}/livereload`,
 )
 
 connection.onerror = error => {

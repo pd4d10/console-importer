@@ -26,7 +26,7 @@ function createOnError(name, url) {
       strong(name),
       ', is this URL',
       urlText,
-      ' correct?'
+      ' correct?',
     )
   }
 }
@@ -89,7 +89,7 @@ function inject(
   url,
   beforeLoad = createBeforeLoad(url),
   onload = createOnLoad(url),
-  onerror = createOnError(url)
+  onerror = createOnError(url),
 ) {
   beforeLoad()
 
@@ -115,7 +115,7 @@ function cdnjs(name) {
         logError(
           'Sorry, ',
           strong(name),
-          ' not found, please try another keyword.'
+          ' not found, please try another keyword.',
         )
         return
       }
@@ -129,12 +129,12 @@ function cdnjs(name) {
         url,
         createBeforeLoad(exactName),
         createOnLoad(exactName, url),
-        createOnError(exactName, url)
+        createOnError(exactName, url),
       )
     })
     .catch(() => {
       logError(
-        'There appears to be some trouble with your network. If you think this is a bug, please report an issue:'
+        'There appears to be some trouble with your network. If you think this is a bug, please report an issue:',
       )
       logError('https://github.com/pd4d10/console-importer/issues')
     })
