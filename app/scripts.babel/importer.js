@@ -6,15 +6,29 @@ const strong = tiza.color('blue').bold().text
 const error = tiza.color('red').text
 const log = (...args) => tiza.log(prefix(PREFIX_TEXT), ...args)
 const logError = (...args) => tiza.log(error(PREFIX_TEXT), ...args)
+let lastGlobalVariableSet = null
 
 function createBeforeLoad(name) {
-  return () => log(strong(name), ' is loading, please be patient...')
+  return () => {
+    lastGlobalVariableSet = new Set(Object.keys(window))
+    log(strong(name), ' is loading, please be patient...')
+  }
 }
 
 function createOnLoad(name, url) {
   return () => {
     const urlText = url ? `(${url})` : ''
     log(strong(name), `${urlText} is loaded.`)
+
+    const currentGlobalVariables = Object.keys(window)
+    const newGlobalVariables = currentGlobalVariables.filter((key)=>!lastGlobalVariableSet.has(key))
+    if(newGlobalVariables.length > 0) {
+      log('The new global variables are as follows: ', strong(newGlobalVariables.join(',')), ' . Maybe you can use them.')
+    } else {
+      // maybe css request or script loaded already
+    }
+    // Update global variable list
+    lastGlobalVariableSet = new Set(currentGlobalVariables);
   }
 }
 
