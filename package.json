@@ -53,5 +53,8 @@
   },
   "dependencies": {
     "tiza": "^2.0.0"
+  },
+  "resolutions": {
+    "graceful-fs": "^4.2.4"
   }
 }
