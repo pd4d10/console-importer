@@ -60,9 +60,9 @@ It is because of strict Content Security Policy of these websites. For more info
 
 ## How does it work?
 
-* If it is like a JavaScript lib name, like `jquery`, try to load it from cdnjs
-* If it has version number, like `jquery@2`, try to load it from unpkg
-* If it is a valid URL(CSS or JS), load it directly
+- If it is like a JavaScript lib name, like `jquery`, try to load it from cdnjs
+- If it has version number, like `jquery@2`, try to load it from unpkg
+- If it is a valid URL(CSS or JS), load it directly
 
 For advanced use, there are also two functions `$i.unpkg` and `$i.cdnjs` which could be used to import resources from specific CDN.
 
