@@ -1,0 +1,13 @@
+lockfileVersion: 5.3
+
+specifiers:
+  tiza: ^2.0.0
+
+devDependencies:
+  tiza: 2.2.1
+
+packages:
+
+  /tiza/2.2.1:
+    resolution: {integrity: sha1-CQVmNFNoIsXLBqXdyUJUQZxm97E=}
+    dev: true
