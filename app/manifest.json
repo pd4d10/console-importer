@@ -8,27 +8,15 @@
     "128": "images/icon.png"
   },
   "default_locale": "en",
-  "background": {
-    "scripts": [
-      "scripts/chromereload.js",
-      "scripts/background.js"
-    ]
-  },
   "permissions": [],
   "content_scripts": [
     {
-      "matches": [
-        "<all_urls>"
-      ],
+      "matches": ["<all_urls>"],
       "all_frames": true,
       "match_about_blank": true,
-      "js": [
-        "scripts/contentscript.js"
-      ],
+      "js": ["scripts/contentscript.js"],
       "run_at": "document_end"
     }
   ],
-  "web_accessible_resources": [
-    "scripts/importer.js"
-  ]
+  "web_accessible_resources": ["scripts/importer.js"]
 }
