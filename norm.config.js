@@ -4,7 +4,7 @@ const { defineConfig } = require('@norm/cli')
 module.exports = defineConfig({
   mode: 'web-extension',
   manifest: {
-    manifest_version: 2,
+    manifest_version: 3,
     name: '__MSG_appName__',
     version: '1.4.0',
     description: '__MSG_appDescription__',
@@ -13,7 +13,6 @@ module.exports = defineConfig({
       128: 'images/icon.png',
     },
     default_locale: 'en',
-    permissions: [],
     content_scripts: [
       {
         matches: ['<all_urls>'],
@@ -23,6 +22,11 @@ module.exports = defineConfig({
         run_at: 'document_end',
       },
     ],
-    web_accessible_resources: ['/src/importer.js'],
+    web_accessible_resources: [
+      {
+        matches: ['<all_urls>'],
+        resources: ['/src/importer.js'],
+      },
+    ],
   },
 })
