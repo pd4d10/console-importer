@@ -25,8 +25,18 @@ module.exports = defineConfig({
     web_accessible_resources: [
       {
         matches: ['<all_urls>'],
-        resources: ['/src/importer.js'],
+        resources: ['assets/*.js'],
       },
     ],
+  },
+  vite: {
+    build: {
+      rollupOptions: {
+        input: ['src/importer.js'],
+        output: {
+          entryFileNames: 'assets/[name].js',
+        },
+      },
+    },
   },
 })
