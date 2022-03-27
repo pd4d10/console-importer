@@ -4,10 +4,10 @@
   "scripts": {
     "dev": "norm",
     "build": "norm build",
-    "icon": "rm app/images/icon.png; svg2png app/images/icon.svg -o app/images/icon.png",
-    "lint": "norm lint"
+    "icon": "rm app/images/icon.png; svg2png app/images/icon.svg -o app/images/icon.png"
   },
   "devDependencies": {
+    "@norm/cli": "^0.4.28",
     "tiza": "^2.0.0"
   }
 }

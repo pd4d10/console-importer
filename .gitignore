@@ -8,3 +8,4 @@ test/bower_components
 package
 app/scripts
 coverage
+norm-env.d.ts
