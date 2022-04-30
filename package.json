@@ -13,5 +13,9 @@
     "tiza": "^2.2.1",
     "vite": "^2.9.6",
     "vitest": "^0.10.0"
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true
   }
 }
