@@ -140,7 +140,7 @@ function cdnjs(name) {
         return
       }
 
-      const matchedResult = results.filter(item => item.name === name)
+      const matchedResult = results.filter((item) => item.name === name)
       const { name: exactName, latest: url } = matchedResult[0] || results[0]
       if (name !== exactName) {
         log(strong(name), ' not found, import ', strong(exactName), ' instead.')

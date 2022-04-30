@@ -1,10 +1,14 @@
-// @ts-check
-import { defineConfig } from '@norm/cli'
+import { defineConfig } from 'vite'
+import webExtension from '@vite-preset/web-extension'
 
 export default defineConfig({
-  projects: {
-    '.': {
-      type: 'web-extension',
+  build: {
+    rollupOptions: {
+      input: ['src/importer.js'],
+    },
+  },
+  plugins: [
+    webExtension({
       manifest: {
         manifest_version: 3,
         name: '__MSG_appName__',
@@ -31,16 +35,6 @@ export default defineConfig({
           },
         ],
       },
-      overrides: {
-        build: {
-          rollupOptions: {
-            input: ['src/importer.js'],
-            output: {
-              entryFileNames: 'assets/[name].js',
-            },
-          },
-        },
-      },
-    },
-  },
+    }),
+  ],
 })

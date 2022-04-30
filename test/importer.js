@@ -17,7 +17,7 @@ describe('Console Importer', function () {
 
   it('should throw error when argument is invalid', function () {
     expect(() => $i({})).toThrowError(
-      'Argument should be a string, please check it.',
+      'Argument should be a string, please check it.'
     )
   })
 
@@ -36,14 +36,14 @@ describe('Console Importer', function () {
         `%c[$i]: %c${jsUrl}%c is loading, please be patient...`,
         prefix,
         strong,
-        '',
+        ''
       )
       setTimeout(() => {
         expect(console.log).toHaveBeenCalledWith(
           `%c[$i]: %c${jsUrl}%c is loaded.`,
           prefix,
           strong,
-          '',
+          ''
         )
         expect(window.$.fn.jquery).toBe('3.1.1')
         done()
@@ -63,7 +63,7 @@ describe('Console Importer', function () {
         `%c[$i]: %c${url}%c is loading, please be patient...`,
         prefix,
         strong,
-        '',
+        ''
       )
       setTimeout(() => {
         expect(console.log).toHaveBeenCalledWith(
@@ -73,7 +73,7 @@ describe('Console Importer', function () {
           strong,
           '',
           '',
-          '',
+          ''
         )
         done()
       }, TIMEOUT)
@@ -91,7 +91,7 @@ describe('Console Importer', function () {
         `%c[$i]: %c${cssUrl}%c is loading, please be patient...`,
         prefix,
         strong,
-        '',
+        ''
       )
       setTimeout(() => {
         expect(getComputedStyle(document.body).boxSizing).toBe('border-box')
@@ -99,7 +99,7 @@ describe('Console Importer', function () {
           `%c[$i]: %c${cssUrl}%c is loaded.`,
           prefix,
           strong,
-          '',
+          ''
         )
         done()
       }, TIMEOUT)
@@ -119,7 +119,7 @@ describe('Console Importer', function () {
         `%c[$i]: %c${url}%c is loading, please be patient...`,
         prefix,
         strong,
-        '',
+        ''
       )
       setTimeout(() => {
         expect(console.log).toHaveBeenCalledWith(
@@ -129,7 +129,7 @@ describe('Console Importer', function () {
           strong,
           '',
           '',
-          '',
+          ''
         )
         done()
       }, TIMEOUT)
@@ -147,20 +147,20 @@ describe('Console Importer', function () {
         prefix,
         '',
         strong,
-        '',
+        ''
       )
       setTimeout(() => {
         expect(console.log).toHaveBeenCalledWith(
           '%c[$i]: %cjquery%c is loading, please be patient...',
           prefix,
           strong,
-          '',
+          ''
         )
         expect(console.log).toHaveBeenCalledWith(
           jasmine.any(String),
           prefix,
           strong,
-          '',
+          ''
         )
         expect(window.$.fn.jquery).toBeDefined()
         done()
@@ -179,7 +179,7 @@ describe('Console Importer', function () {
         prefix,
         '',
         strong,
-        '',
+        ''
       )
       setTimeout(() => {
         expect(console.log).toHaveBeenCalledWith(
@@ -188,19 +188,19 @@ describe('Console Importer', function () {
           strong,
           '',
           strong,
-          '',
+          ''
         )
         expect(console.log).toHaveBeenCalledWith(
           '%c[$i]: %cjquery%c is loading, please be patient...',
           prefix,
           strong,
-          '',
+          ''
         )
         expect(console.log).toHaveBeenCalledWith(
           jasmine.any(String),
           prefix,
           strong,
-          '',
+          ''
         )
         expect(window.$.fn.jquery).toBeDefined()
         done()
@@ -220,7 +220,7 @@ describe('Console Importer', function () {
           error,
           '',
           strong,
-          '',
+          ''
         )
         done()
       }, TIMEOUT)
@@ -237,7 +237,7 @@ describe('Console Importer', function () {
         '%c[$i]: %cjquery@2%c is loading, please be patient...',
         prefix,
         strong,
-        '',
+        ''
       )
       setTimeout(() => {
         expect(window.$.fn.jquery[0]).toBe('2')
@@ -245,7 +245,7 @@ describe('Console Importer', function () {
           '%c[$i]: %cjquery@2%c(https://unpkg.com/jquery@2) is loaded.',
           prefix,
           strong,
-          '',
+          ''
         )
         done()
       }, TIMEOUT)
@@ -277,11 +277,11 @@ describe('Console Importer', function () {
       document.head.appendChild(meta)
       $i(jsUrl)
       expect(document.querySelector('meta[name=referrer]').content).toBe(
-        'origin',
+        'origin'
       )
       setTimeout(() => {
         expect(document.querySelector('meta[name=referrer]').content).toBe(
-          'origin',
+          'origin'
         )
         done()
       }, TIMEOUT)
