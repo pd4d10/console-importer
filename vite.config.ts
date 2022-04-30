@@ -4,7 +4,7 @@ import webExtension from '@vite-preset/web-extension'
 export default defineConfig({
   build: {
     rollupOptions: {
-      input: ['src/importer.js'],
+      input: ['src/importer.ts'],
     },
   },
   test: {
@@ -28,7 +28,7 @@ export default defineConfig({
             matches: ['<all_urls>'],
             all_frames: true,
             match_about_blank: true,
-            js: ['/src/contentscript.js'],
+            js: ['/src/content-script.ts'],
             run_at: 'document_end',
           },
         ],

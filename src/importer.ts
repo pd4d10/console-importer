@@ -4,25 +4,27 @@ const PREFIX_TEXT = '[$i]: '
 const prefix = tiza.color('blue').text
 const strong = tiza.color('blue').bold().text
 const error = tiza.color('red').text
-const log = (...args) => tiza.log(prefix(PREFIX_TEXT), ...args)
-const logError = (...args) => tiza.log(error(PREFIX_TEXT), ...args)
-let lastGlobalVariableSet = null
+const log: typeof tiza.log = (...args) => tiza.log(prefix(PREFIX_TEXT), ...args)
+const logError: typeof tiza.log = (...args) =>
+  tiza.log(error(PREFIX_TEXT), ...args)
 
-function createBeforeLoad(name) {
+let lastGlobalVariableSet: Set<string> | null = null
+
+function createBeforeLoad(name: string) {
   return () => {
     lastGlobalVariableSet = new Set(Object.keys(window))
     log(strong(name), ' is loading, please be patient...')
   }
 }
 
-function createOnLoad(name, url) {
+function createOnLoad(name: string, url?: string) {
   return () => {
     const urlText = url ? `(${url})` : ''
     log(strong(name), `${urlText} is loaded.`)
 
     const currentGlobalVariables = Object.keys(window)
     const newGlobalVariables = currentGlobalVariables.filter(
-      (key) => !lastGlobalVariableSet.has(key)
+      (key) => !lastGlobalVariableSet?.has(key)
     )
     if (newGlobalVariables.length > 0) {
       log(
@@ -38,7 +40,7 @@ function createOnLoad(name, url) {
   }
 }
 
-function createOnError(name, url) {
+function createOnError(name: string, url?: string) {
   return () => {
     const urlText = url ? `(${strong(url)})` : ''
     logError(
@@ -55,7 +57,9 @@ function createOnError(name, url) {
 // https://imququ.com/post/referrer-policy.html
 // https://www.w3.org/TR/referrer-policy/
 function addNoReferrerMeta() {
-  const originMeta = document.querySelector('meta[name=referrer]')
+  const originMeta = document.querySelector<HTMLMetaElement>(
+    'meta[name=referrer]'
+  )
 
   if (originMeta) {
     // If there is already a referrer policy meta tag, save origin content
@@ -80,7 +84,11 @@ function addNoReferrerMeta() {
 }
 
 // Insert script tag
-function injectScript(url, onload, onerror) {
+function injectScript(
+  url: string,
+  onload: ReturnType<typeof createBeforeLoad>,
+  onerror: ReturnType<typeof createOnError>
+) {
   const remove = addNoReferrerMeta()
   const script = document.createElement('script')
   script.src = url
@@ -92,7 +100,11 @@ function injectScript(url, onload, onerror) {
 }
 
 // Insert link tag
-function injectStyle(url, onload, onerror) {
+function injectStyle(
+  url: string,
+  onload: ReturnType<typeof createBeforeLoad>,
+  onerror: ReturnType<typeof createOnError>
+) {
   const remove = addNoReferrerMeta()
   const link = document.createElement('link')
   link.href = url
@@ -106,7 +118,7 @@ function injectStyle(url, onload, onerror) {
 }
 
 function inject(
-  url,
+  url: string,
   beforeLoad = createBeforeLoad(url),
   onload = createOnLoad(url),
   onerror = createOnError(url)
@@ -124,7 +136,7 @@ function inject(
 
 // From cdnjs
 // https://cdnjs.com/
-function cdnjs(name) {
+function cdnjs(name: string) {
   log('Searching for ', strong(name), ', please be patient...')
   fetch(`https://api.cdnjs.com/libraries?search=${name}`, {
     referrerPolicy: 'no-referrer',
@@ -140,7 +152,7 @@ function cdnjs(name) {
         return
       }
 
-      const matchedResult = results.filter((item) => item.name === name)
+      const matchedResult = results.filter((item: any) => item.name === name)
       const { name: exactName, latest: url } = matchedResult[0] || results[0]
       if (name !== exactName) {
         log(strong(name), ' not found, import ', strong(exactName), ' instead.')
@@ -163,14 +175,14 @@ function cdnjs(name) {
 
 // From unpkg
 // https://unpkg.com
-function unpkg(name) {
+function unpkg(name: string) {
   createBeforeLoad(name)()
   const url = `https://unpkg.com/${name}`
   injectScript(url, createOnLoad(name, url), createOnError(name, url))
 }
 
 // Entry
-function importer(originName) {
+function importer(originName: unknown) {
   if (typeof originName !== 'string') {
     throw new Error('Argument should be a string, please check it.')
   }
@@ -198,11 +210,12 @@ importer.unpkg = unpkg
 importer.toString = () => '$i'
 
 // Assign to console
-console.$i = importer
+;(console as any).$i = importer
 
 // Do not break existing $i
-if (typeof window.$i === 'undefined') {
-  window.$i = importer
+const win = window as any
+if (typeof win.$i === 'undefined') {
+  win.$i = importer
 } else {
   log('$i is already in use, please use `console.$i` instead')
 }
