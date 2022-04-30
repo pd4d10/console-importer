@@ -7,6 +7,10 @@ export default defineConfig({
       input: ['src/importer.js'],
     },
   },
+  test: {
+    globals: true,
+    environment: 'happy-dom',
+  },
   plugins: [
     webExtension({
       manifest: {
