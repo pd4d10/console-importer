@@ -52,7 +52,7 @@ or specify a version:
 d3 = await $i.esm('d3@7')
 ```
 
-It would import ES module resources from https://esm.run.
+The advantage of this approach is that no global variables are added to the window, which allows better control over the scope of side effects. For more details, see https://esm.run.
 
 ## Trouble shooting
 
