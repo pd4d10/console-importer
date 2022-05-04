@@ -38,6 +38,22 @@ CSS is supported, too:
 $i('https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css')
 ```
 
+### Import ES Module
+
+ES module has been widely supported in modern browsers. `$i.esm` method can be useful in this case:
+
+```js
+d3 = await $i.esm('d3')
+```
+
+or specify a version:
+
+```js
+d3 = await $i.esm('d3@7')
+```
+
+It would import ES module resources from https://esm.run.
+
 ## Trouble shooting
 
 ### Q: `$i` doesn't work as expected

@@ -181,6 +181,13 @@ function unpkg(name: string) {
   injectScript(url, createOnLoad(name, url), createOnError(name, url))
 }
 
+// https://www.jsdelivr.com/esm
+async function esm(name: string) {
+  log(strong(name), '(esm) is loading, please be patient...')
+  const res = await import(`https://esm.run/${name}`)
+  return res
+}
+
 // Entry
 function importer(originName: unknown) {
   if (typeof originName !== 'string') {
@@ -205,6 +212,7 @@ function importer(originName: unknown) {
 
 importer.cdnjs = cdnjs
 importer.unpkg = unpkg
+importer.esm = esm
 
 // Do not output annoying ugly string of function content
 importer.toString = () => '$i'
