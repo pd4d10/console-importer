@@ -1,22 +1,26 @@
 {
   "name": "console-importer",
+  "version": "2.1.0",
+  "displayName": "Console Importer",
+  "description": "Import JavaScript and CSS resources from console, with one command",
+  "homepage": "https://github.com/pd4d10/console-importer",
   "private": true,
   "scripts": {
-    "dev": "vite build --watch",
-    "build": "vite build",
+    "dev": "plasmo dev",
+    "build": "plasmo build",
+    "package": "plasmo package",
     "test": "vitest",
     "icon": "rm app/images/icon.png; svg2png app/images/icon.svg -o app/images/icon.png"
   },
   "devDependencies": {
-    "@vite-preset/web-extension": "^0.1.0",
     "happy-dom": "^3.1.0",
+    "plasmo": "^0.60.2",
     "tiza": "^2.2.1",
-    "vite": "^2.9.6",
     "vitest": "^0.10.0"
   },
   "prettier": {
     "semi": false,
     "singleQuote": true
   },
-  "packageManager": "pnpm@7.0.0"
+  "packageManager": "pnpm@7.19.0"
 }
