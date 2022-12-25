@@ -9,7 +9,7 @@
     "dev": "plasmo dev",
     "build": "plasmo build",
     "package": "plasmo package",
-    "test": "vitest",
+    "test": "vitest --dom",
     "icon": "rm app/images/icon.png; svg2png app/images/icon.svg -o app/images/icon.png"
   },
   "devDependencies": {

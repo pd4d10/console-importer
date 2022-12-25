@@ -1,4 +1,4 @@
-/// <reference types="vitest/globals" />
+import { describe, it, expect, beforeEach, vi } from 'vitest'
 import './importer'
 
 const win = window as any
@@ -264,19 +264,17 @@ describe('Console Importer', () => {
       expect(document.querySelector('meta[name=referrer]')).toBe(null)
     })
     it('should not be changed if existing', async () => {
-      const meta = document.createElement('meta')
+      let meta = document.createElement('meta')
       meta.name = 'referrer'
       meta.content = 'origin'
       document.head.appendChild(meta)
       $i(jsUrl)
-      expect(document.querySelector('meta[name=referrer]').content).toBe(
-        'origin'
-      )
 
+      meta = document.querySelector('meta[name=referrer]') as HTMLMetaElement
+
+      expect(meta.content).toBe('origin')
       await sleep(TIMEOUT)
-      expect(document.querySelector('meta[name=referrer]').content).toBe(
-        'origin'
-      )
+      expect(meta.content).toBe('origin')
     })
   })
 })
