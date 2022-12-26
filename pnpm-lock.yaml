@@ -3,12 +3,16 @@ lockfileVersion: 5.4
 specifiers:
   happy-dom: ^8.1.1
   plasmo: ^0.60.2
+  rescript: ^10.1.0
+  rescript-webapi: ^0.7.0
   tiza: ^2.2.1
   vitest: ^0.26.2
 
 devDependencies:
   happy-dom: 8.1.1
   plasmo: 0.60.2
+  rescript: 10.1.0
+  rescript-webapi: 0.7.0
   tiza: 2.2.1
   vitest: 0.26.2_happy-dom@8.1.1
 
@@ -4108,6 +4112,16 @@ packages:
     engines: {node: '>=12'}
     dependencies:
       rc: 1.2.8
+    dev: true
+
+  /rescript-webapi/0.7.0:
+    resolution: {integrity: sha512-fA1LPXSmQY3HtcIStQ2sHu9Xye1XLxd4JvkGQMupux9Q6Tp/jbcdh7bnCaGwHW6aI1QFmTmA/xWxUMb6oPphsQ==}
+    dev: true
+
+  /rescript/10.1.0:
+    resolution: {integrity: sha512-85KLtBECo+hYwObbifXk5xpxUCUFMWgCR1w7hDDGhhXIXqEpHQ2ds6o++YPxzXjLuU1/qA7Iovq2zUX4opejQw==}
+    hasBin: true
+    requiresBuild: true
     dev: true
 
   /resolve-alpn/1.2.1:

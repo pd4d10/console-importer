@@ -1,0 +1,14 @@
+{
+  "name": "console-importer",
+  "sources": {
+    "dir": "src",
+    "subdirs": true
+  },
+  "package-specs": [
+    {
+      "module": "es6",
+      "in-source": true
+    }
+  ],
+  "bs-dependencies": ["rescript-webapi"]
+}
