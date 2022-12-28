@@ -1,16 +1,16 @@
 {
   "name": "console-importer",
-  "version": "2.1.0",
   "displayName": "Console Importer",
+  "version": "2.1.0",
+  "private": true,
   "description": "Import JavaScript and CSS resources from console, with one command",
   "homepage": "https://github.com/pd4d10/console-importer",
-  "private": true,
   "scripts": {
-    "dev": "plasmo dev",
     "build": "plasmo build",
+    "dev": "plasmo dev",
+    "icon": "rm app/images/icon.png; svg2png app/images/icon.svg -o app/images/icon.png",
     "package": "plasmo package",
-    "test": "vitest --dom",
-    "icon": "rm app/images/icon.png; svg2png app/images/icon.svg -o app/images/icon.png"
+    "test": "vitest --dom"
   },
   "devDependencies": {
     "happy-dom": "^8.1.1",
@@ -19,10 +19,6 @@
     "rescript-webapi": "^0.7.0",
     "tiza": "^2.2.1",
     "vitest": "^0.26.2"
-  },
-  "prettier": {
-    "semi": false,
-    "singleQuote": true
   },
   "packageManager": "pnpm@7.19.0"
 }
