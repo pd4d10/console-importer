@@ -1,7 +1,7 @@
 {
   "name": "console-importer",
   "displayName": "Console Importer",
-  "version": "2.1.0",
+  "version": "2.3.0",
   "private": true,
   "description": "Import JavaScript and CSS resources from console, with one command",
   "homepage": "https://github.com/pd4d10/console-importer",
@@ -13,12 +13,12 @@
     "test": "vitest --dom"
   },
   "devDependencies": {
-    "happy-dom": "^8.1.1",
+    "happy-dom": "^8.9.0",
     "plasmo": "^0.60.2",
-    "rescript": "^10.1.0",
+    "rescript": "^10.1.4",
     "rescript-webapi": "^0.7.0",
     "tiza": "^2.2.1",
-    "vitest": "^0.26.2"
+    "vitest": "^0.26.3"
   },
   "packageManager": "pnpm@7.19.0"
 }
