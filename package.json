@@ -1,13 +1,15 @@
 {
   "name": "console-importer",
   "displayName": "Console Importer",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "private": true,
   "description": "Import JavaScript and CSS resources from console, with one command",
   "homepage": "https://github.com/pd4d10/console-importer",
   "scripts": {
     "build": "plasmo build",
+    "build:firefox": "plasmo build --target=firefox-mv2",
     "dev": "plasmo dev",
+    "dev:firefox": "plasmo dev --target=firefox-mv2",
     "icon": "rm app/images/icon.png; svg2png app/images/icon.svg -o app/images/icon.png",
     "package": "plasmo package",
     "test": "vitest --dom"
